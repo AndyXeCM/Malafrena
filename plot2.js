@@ -1,4 +1,37 @@
-// Malafrena 剧情总览页面脚本（基于 achievements.js 与 data.js）
+// Minecraft 风格剧情成就墙 v2（基于 achievements.js 与 data.js）
+
+const branchDefinitions = [
+    {
+        id: 'mainline',
+        title: '主线剧情',
+        description: '革命主线与关键转折',
+        categories: ['politics', 'action', 'arrival', 'departure']
+    },
+    {
+        id: 'romance',
+        title: '爱情支线',
+        description: 'Itale 与 Piera 的情感发展',
+        categories: ['romance']
+    },
+    {
+        id: 'family',
+        title: '家庭支线',
+        description: '家族责任与亲情冲突',
+        categories: ['family']
+    },
+    {
+        id: 'friendship',
+        title: '友谊支线',
+        description: '伙伴与同盟的羁绊',
+        categories: ['friend', 'social']
+    },
+    {
+        id: 'growth',
+        title: '成长支线',
+        description: '成长、教育与心灵变化',
+        categories: ['childhood', 'education', 'character', 'mentor', 'mystery']
+    }
+];
 
 const chapterOrder = [
     'PART_ONE',
@@ -10,7 +43,8 @@ const chapterOrder = [
     'PART_SEVEN'
 ];
 
-let currentFilter = 'all';
+let currentBranch = 'all';
+let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof plotAchievements === 'undefined' || typeof chapterData === 'undefined') {
@@ -19,9 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderSummary();
-    renderFilters();
-    renderChapters();
-    setupModalHandlers();
+    renderBranchList();
+    renderCategoryFilter();
+    renderBranches();
+    setupInteractions();
 });
 
 function showLoadError() {
@@ -46,79 +81,99 @@ function renderSummary() {
         .join(' → ');
 
     summaryLine.textContent = titleLine || 'Malafrena 的人生旅程与革命历程。';
-
     summaryDetail.innerHTML = `
         <ul>
             ${chapterOrder.map(id => {
                 const chapter = chapterData[id];
-                if (!chapter) return '';
-                return `<li>• ${chapter.title}：${chapter.description}</li>`;
+                return chapter ? `<li>• ${chapter.title}：${chapter.description}</li>` : '';
             }).join('')}
         </ul>
     `;
 }
 
-function renderFilters() {
-    const filters = document.getElementById('filters');
-    if (!filters) return;
+function renderBranchList() {
+    const list = document.getElementById('branchList');
+    if (!list) return;
 
-    const categories = typeof categoryData === 'undefined' ? {} : categoryData;
-    const items = [
-        { id: 'all', name: '全部' },
-        ...Object.values(categories)
+    const options = [
+        { id: 'all', title: '全部分支', description: '查看所有剧情节点' },
+        ...branchDefinitions
     ];
 
-    filters.innerHTML = items.map(item => `
-        <button class="filter-btn ${item.id === currentFilter ? 'active' : ''}" data-filter="${item.id}">
-            ${item.name}
-        </button>
+    list.innerHTML = options.map(option => `
+        <li>
+            <button class="branch-btn ${option.id === currentBranch ? 'active' : ''}" data-branch="${option.id}">
+                ${option.title}
+            </button>
+        </li>
     `).join('');
 
-    filters.querySelectorAll('.filter-btn').forEach(button => {
+    list.querySelectorAll('.branch-btn').forEach(button => {
         button.addEventListener('click', () => {
-            currentFilter = button.dataset.filter;
-            filters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            currentBranch = button.dataset.branch;
+            list.querySelectorAll('.branch-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-            renderChapters();
+            renderBranches();
         });
     });
 }
 
-function renderChapters() {
-    const container = document.getElementById('chaptersContainer');
+function renderCategoryFilter() {
+    const select = document.getElementById('categorySelect');
+    if (!select) return;
+
+    const categories = typeof categoryData === 'undefined' ? {} : categoryData;
+    const options = [
+        { id: 'all', name: '全部分类' },
+        ...Object.values(categories)
+    ];
+
+    select.innerHTML = options.map(option => `
+        <option value="${option.id}">${option.name}</option>
+    `).join('');
+
+    select.value = currentCategory;
+    select.addEventListener('change', () => {
+        currentCategory = select.value;
+        renderBranches();
+    });
+}
+
+function renderBranches() {
+    const container = document.getElementById('branchesContainer');
     if (!container) return;
 
     container.innerHTML = '';
     const achievements = Object.values(plotAchievements);
+    const branchesToRender = currentBranch === 'all'
+        ? branchDefinitions
+        : branchDefinitions.filter(branch => branch.id === currentBranch);
 
-    chapterOrder.forEach(chapterId => {
-        const chapter = chapterData[chapterId];
-        if (!chapter) return;
-
-        const chapterAchievements = achievements.filter(achievement => {
-            if (achievement.chapter !== chapterId) return false;
-            if (currentFilter === 'all') return true;
-            return achievement.category === currentFilter;
+    branchesToRender.forEach(branch => {
+        const branchAchievements = achievements.filter(achievement => {
+            if (!branch.categories.includes(achievement.category)) return false;
+            if (currentCategory === 'all') return true;
+            return achievement.category === currentCategory;
         });
 
+        if (!branchAchievements.length) return;
+
         const section = document.createElement('section');
-        section.className = 'chapter-section';
+        section.className = 'branch-section';
         section.innerHTML = `
-            <div class="chapter-header">
-                <h2 class="chapter-title">${chapter.title}</h2>
-                <p class="chapter-subtitle">${chapter.description}</p>
+            <div class="branch-header">
+                <h2>${branch.title}</h2>
+                <span>${branch.description} · ${branchAchievements.length} 项</span>
             </div>
-            <div class="achievement-grid"></div>
+            <div class="achievement-scroll">
+                <div class="achievement-grid"></div>
+            </div>
         `;
 
         const grid = section.querySelector('.achievement-grid');
-        if (!chapterAchievements.length) {
-            grid.innerHTML = '<p style="color:#b6c0b0;">该章节暂无匹配的剧情节点。</p>';
-        } else {
-            chapterAchievements.forEach(achievement => {
-                grid.appendChild(createAchievementCard(achievement));
-            });
-        }
+        branchAchievements.forEach(achievement => {
+            grid.appendChild(createAchievementCard(achievement));
+        });
 
         container.appendChild(section);
     });
@@ -139,7 +194,12 @@ function createAchievementCard(achievement) {
         <div class="achievement-title">${achievement.title_cn}</div>
         <div class="achievement-subtitle">${achievement.title}</div>
         <div class="achievement-tags">
-            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            ${tags.map(tag => `<span class="achievement-tag">${tag}</span>`).join('')}
+        </div>
+        <div class="achievement-detail">
+            <h4>${chapterData?.[achievement.chapter]?.title || '剧情细节'}</h4>
+            <p>${achievement.description_cn}</p>
+            <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
         </div>
     `;
 
@@ -147,7 +207,7 @@ function createAchievementCard(achievement) {
     return card;
 }
 
-function setupModalHandlers() {
+function setupInteractions() {
     const modal = document.getElementById('achievementModal');
     if (!modal) return;
 
@@ -182,7 +242,7 @@ function openModal(achievementId) {
 
     title.textContent = achievement.title_cn;
     content.innerHTML = `
-        <h4>${chapter?.title || '剧情章节'}</h4>
+        <h4>${chapter?.title || '剧情节点'}</h4>
         <p>${achievement.description_cn}</p>
         <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
         <p><strong>分类：</strong>${category?.name || achievement.category}</p>
