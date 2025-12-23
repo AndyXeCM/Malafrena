@@ -244,6 +244,32 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .achievement-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            overflow: visible;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, rgba(49, 62, 50, 0.95), rgba(30, 38, 31, 0.95));
+            border: 2px solid rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            overflow: visible;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
         .achievement-icon {
             width: 44px;
             height: 44px;
@@ -264,6 +290,7 @@
             font-size: 1.05rem;
             color: #f5f1dc;
             font-weight: 600;
+            margin-bottom: 0.35rem;
         }
 
         .achievement-subtitle {
@@ -293,6 +320,12 @@
             right: 0;
             top: calc(100% + 12px);
             width: 100%;
+            left: calc(100% + 12px);
+            top: 0;
+            width: min(320px, 70vw);
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
             background: rgba(14, 18, 14, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px;
@@ -306,6 +339,8 @@
         }
 
         .achievement-card:hover .achievement-detail {
+        .achievement-card:hover .achievement-detail,
+        .achievement-card.is-open .achievement-detail {
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
@@ -327,6 +362,13 @@
             color: #b6c0b0;
             font-size: 0.95rem;
             padding: 0.75rem 0;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            padding-bottom: 3rem;
         }
 
         .footer-actions {
@@ -413,6 +455,12 @@
                 min-width: 240px;
                 flex-basis: 240px;
             }
+
+            .achievement-detail {
+                left: 0;
+                top: calc(100% + 12px);
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -441,6 +489,27 @@
             <!-- JS 渲染分支成就 -->
         </main>
     </div>
+
+
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>剧情分支</h2>
+            <ul class="branch-list" id="branchList"></ul>
+        </aside>
+
+        <main class="content" id="branchesContainer">
+            <!-- JS 渲染分支成就 -->
+        </main>
+    </div>
+
+    <div class="footer-actions">
+        <a href="index.html"><i class="fas fa-project-diagram"></i> 人物关系图</a>
+        <a href="help.html"><i class="fas fa-question"></i> 使用帮助</a>
+    </div>
+
+    <main class="branches" id="branchesContainer">
+        <!-- JS 渲染分支成就 -->
+    </main>
 
     <div class="footer-actions">
         <a href="index.html"><i class="fas fa-project-diagram"></i> 人物关系图</a>
