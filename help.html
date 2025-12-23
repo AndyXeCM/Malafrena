@@ -95,6 +95,7 @@
             border-radius: 12px;
             text-align: center;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
         }
 
         .feature-card i {
@@ -113,6 +114,15 @@
             opacity: 0.9;
         }
 
+        .feature-link-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
         .feature-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 30px rgba(102, 126, 234, 0.35);
@@ -121,6 +131,12 @@
         .feature-link {
             text-decoration: none;
             display: block;
+            color: inherit;
+        }
+
+        .feature-link:focus-visible {
+            outline: 3px solid rgba(255, 255, 255, 0.9);
+            outline-offset: 4px;
         }
 
         .step-list {
@@ -297,11 +313,13 @@
                     <i class="fas fa-project-diagram"></i>
                     <h4>人物关系图</h4>
                     <p>探索30个主要人物之间的复杂关系网络</p>
+                    <span class="feature-link-text">点击进入 <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a class="feature-card feature-link" href="plot.html">
                     <i class="fas fa-route"></i>
                     <h4>剧情走向图</h4>
                     <p>跟随伊塔勒的成长历程，理解故事发展脉络</p>
+                    <span class="feature-link-text">点击进入 <i class="fas fa-arrow-right"></i></span>
                 </a>
             </div>
         </section>
