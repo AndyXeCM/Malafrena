@@ -37,13 +37,13 @@
 
         .header p {
             color: #cbd3c2;
-            max-width: 720px;
+            max-width: 760px;
             margin: 0 auto;
             line-height: 1.6;
         }
 
         .summary-section {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto 2rem;
             padding: 0 1.5rem;
         }
@@ -54,7 +54,7 @@
             border-radius: 16px;
             padding: 1.5rem 2rem;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
             cursor: pointer;
         }
@@ -101,6 +101,7 @@
             transform: translateY(-6px);
             pointer-events: none;
             transition: all 0.2s ease;
+            z-index: 20;
         }
 
         .summary-card:hover .summary-detail,
@@ -122,25 +123,83 @@
             line-height: 1.6;
         }
 
-        .branches {
-            max-width: 1200px;
+        .layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 1.5rem;
+            max-width: 1300px;
             margin: 0 auto 4rem;
             padding: 0 1.5rem 3rem;
         }
 
+        .sidebar {
+            background: rgba(24, 30, 24, 0.9);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: sticky;
+            top: 1.5rem;
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            color: #f7e7a9;
+            margin-bottom: 1rem;
+        }
+
+        .branch-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .branch-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid transparent;
+            color: #d7decd;
+            padding: 0.6rem 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .branch-btn.active,
+        .branch-btn:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f5f1dc;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
         .branch-section {
-            margin-bottom: 2.5rem;
+            background: rgba(22, 28, 22, 0.85);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: visible;
         }
 
         .branch-header {
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: 0.75rem;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.2rem;
         }
 
         .branch-header h2 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #f4e3ba;
         }
 
@@ -150,24 +209,45 @@
         }
 
         .achievement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            overflow: visible;
         }
 
         .achievement-card {
             background: linear-gradient(135deg, rgba(49, 62, 50, 0.95), rgba(30, 38, 31, 0.95));
             border: 2px solid rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            padding: 1rem 1.1rem;
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             cursor: pointer;
             transition: transform 0.2s ease, border-color 0.2s ease;
+            overflow: visible;
         }
 
         .achievement-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .achievement-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f1dc;
+            font-size: 1.2rem;
+        }
+
+        .achievement-body {
+            flex: 1;
         }
 
         .achievement-title {
@@ -180,6 +260,7 @@
         .achievement-subtitle {
             font-size: 0.85rem;
             color: #c2cab9;
+            margin-top: 0.2rem;
         }
 
         .achievement-tags {
@@ -199,6 +280,9 @@
 
         .achievement-detail {
             position: absolute;
+            left: calc(100% + 12px);
+            top: 0;
+            width: min(320px, 70vw);
             top: calc(100% + 10px);
             left: 0;
             right: 0;
@@ -214,6 +298,7 @@
             z-index: 10;
         }
 
+        .achievement-card:hover .achievement-detail {
         .achievement-card:hover .achievement-detail,
         .achievement-card.is-open .achievement-detail {
             opacity: 1;
@@ -297,11 +382,28 @@
             line-height: 1.6;
             margin-bottom: 1rem;
         }
+
+        @media (max-width: 960px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .achievement-detail {
+                left: 0;
+                top: calc(100% + 12px);
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <h1>Malafrena 剧情成就墙</h1>
+        <p>更像 Minecraft 的成就界面：左侧选择剧情分支，右侧纵向展开每个剧情节点，悬停即可查看详细描述。</p>
         <p>像 Minecraft 的成就界面一样，按分支浏览故事节点：主线、爱情、家庭与友谊，每一格都可悬停或点击查看详细剧情。</p>
     </header>
 
@@ -313,6 +415,22 @@
             <div class="summary-detail" id="summaryDetail"></div>
         </div>
     </section>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>剧情分支</h2>
+            <ul class="branch-list" id="branchList"></ul>
+        </aside>
+
+        <main class="content" id="branchesContainer">
+            <!-- JS 渲染分支成就 -->
+        </main>
+    </div>
+
+    <div class="footer-actions">
+        <a href="index.html"><i class="fas fa-project-diagram"></i> 人物关系图</a>
+        <a href="help.html"><i class="fas fa-question"></i> 使用帮助</a>
+    </div>
 
     <main class="branches" id="branchesContainer">
         <!-- JS 渲染分支成就 -->

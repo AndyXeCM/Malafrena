@@ -1,8 +1,11 @@
 // Malafrena 剧情成就墙 JavaScript
 
+let currentBranch = 'all';
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     renderSummary();
+    renderBranchList();
     renderBranches();
     setupInteractions();
 });
@@ -39,6 +42,91 @@ const branchDefinitions = [
         categories: ['childhood', 'education', 'character', 'mentor', 'mystery']
     }
 ];
+
+function renderSummary() {
+    const summaryLine = document.getElementById('summaryLine');
+    const summaryDetail = document.getElementById('summaryDetail');
+
+    if (!summaryLine || !summaryDetail) return;
+
+    const chapterOrder = [
+        'PART_ONE',
+        'PART_TWO',
+        'PART_THREE',
+        'PART_FOUR',
+        'PART_FIVE',
+        'PART_SIX',
+        'PART_SEVEN'
+    ];
+
+    const summaryText = chapterOrder
+        .map(id => chapterData[id]?.title)
+        .filter(Boolean)
+        .join(' → ');
+
+    summaryLine.textContent = summaryText || 'Malafrena 的人生旅程与革命历程。';
+
+    summaryDetail.innerHTML = `
+        <h3>章节走向</h3>
+        <ul>
+            ${chapterOrder.map(id => {
+                const chapter = chapterData[id];
+                return chapter
+                    ? `<li>• ${chapter.title}：${chapter.description}</li>`
+                    : '';
+            }).join('')}
+        </ul>
+    `;
+}
+
+function renderBranchList() {
+    const list = document.getElementById('branchList');
+    if (!list) return;
+
+    const options = [
+        { id: 'all', title: '全部分支', description: '查看所有剧情节点' },
+        ...branchDefinitions
+    ];
+
+    list.innerHTML = options.map(option => `
+        <li>
+            <button class="branch-btn ${option.id === currentBranch ? 'active' : ''}" data-branch="${option.id}">
+                ${option.title}
+            </button>
+        </li>
+    `).join('');
+
+    list.querySelectorAll('.branch-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            currentBranch = button.dataset.branch;
+            list.querySelectorAll('.branch-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            renderBranches();
+        });
+    });
+}
+
+function renderBranches() {
+    const container = document.getElementById('branchesContainer');
+    if (!container) return;
+
+    container.innerHTML = '';
+    const achievements = Object.values(plotAchievements);
+
+    const branchesToRender = currentBranch === 'all'
+        ? branchDefinitions
+        : branchDefinitions.filter(branch => branch.id === currentBranch);
+
+    branchesToRender.forEach(branch => {
+        const branchAchievements = achievements.filter(achievement =>
+            branch.categories.includes(achievement.category)
+        );
+
+        if (!branchAchievements.length) return;
+
+        const section = document.createElement('section');
+        section.className = 'branch-section';
+
 
 function renderSummary() {
     const summaryLine = document.getElementById('summaryLine');
@@ -126,6 +214,15 @@ function createAchievementCard(achievement) {
     ].filter(Boolean);
 
     card.innerHTML = `
+        <div class="achievement-icon">
+            <i class="fas fa-gem"></i>
+        </div>
+        <div class="achievement-body">
+            <div class="achievement-title">${achievement.title_cn}</div>
+            <div class="achievement-subtitle">${achievement.title}</div>
+            <div class="achievement-tags">
+                ${tags.map(tag => `<span class="achievement-tag">${tag}</span>`).join('')}
+            </div>
         <div class="achievement-title">${achievement.title_cn}</div>
         <div class="achievement-subtitle">${achievement.title}</div>
         <div class="achievement-tags">
@@ -197,6 +294,16 @@ function openModal(achievementId) {
         .map(char => `${char.name_cn}（${char.name}）`);
 
     title.textContent = achievement.title_cn;
+
+    content.innerHTML = `
+        <h4>${chapter?.title || '剧情节点'}</h4>
+        <p>${achievement.description_cn}</p>
+        <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
+        <p><strong>分类：</strong>${category?.name || achievement.category}</p>
+        <p><strong>相关人物：</strong>${characterList.length ? characterList.join('、') : '暂无'}</p>
+        <p><strong>原文：</strong>${achievement.evidence || '暂无原文'}</p>
+    `;
+
 
     content.innerHTML = `
         <div class="modal-body">
