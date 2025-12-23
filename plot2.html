@@ -182,8 +182,7 @@
         }
 
         .achievement-scroll {
-            overflow-x: auto;
-            overflow-y: visible;
+            overflow: visible;
             padding-bottom: 0.5rem;
         }
 
@@ -191,7 +190,8 @@
             display: flex;
             gap: 1rem;
             align-items: stretch;
-            width: max-content;
+            flex-wrap: wrap;
+            overflow: visible;
         }
 
         .achievement-card {
@@ -208,11 +208,13 @@
             overflow: visible;
             min-width: 280px;
             flex: 0 0 280px;
+            z-index: 1;
         }
 
         .achievement-card:hover {
             transform: translateY(-2px);
             border-color: rgba(255, 255, 255, 0.2);
+            z-index: 5;
         }
 
         .achievement-title {
