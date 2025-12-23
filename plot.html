@@ -208,6 +208,42 @@
             color: #a6b0a0;
         }
 
+        .achievement-scroll {
+            overflow-x: auto;
+            overflow-y: visible;
+            padding-bottom: 0.5rem;
+        }
+
+        .achievement-grid {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: stretch;
+            width: max-content;
+            overflow: visible;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, rgba(49, 62, 50, 0.95), rgba(30, 38, 31, 0.95));
+            border: 2px solid rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            overflow: visible;
+            min-width: 280px;
+            flex: 0 0 280px;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
         .achievement-grid {
             display: flex;
             flex-direction: column;
@@ -280,6 +316,10 @@
 
         .achievement-detail {
             position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 12px);
+            width: 100%;
             left: calc(100% + 12px);
             top: 0;
             width: min(320px, 70vw);
@@ -316,6 +356,19 @@
             font-size: 0.85rem;
             color: #d4dccd;
             line-height: 1.5;
+        }
+
+        .branch-empty {
+            color: #b6c0b0;
+            font-size: 0.95rem;
+            padding: 0.75rem 0;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            padding-bottom: 3rem;
         }
 
         .footer-actions {
@@ -397,12 +450,24 @@
                 top: calc(100% + 12px);
                 width: 100%;
             }
+
+            .achievement-card {
+                min-width: 240px;
+                flex-basis: 240px;
+            }
+
+            .achievement-detail {
+                left: 0;
+                top: calc(100% + 12px);
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <h1>Malafrena 剧情成就墙</h1>
+        <p>更像 Minecraft 的成就界面：左侧选择剧情分支，右侧横向铺开剧情节点，悬停即可查看详细描述。</p>
         <p>更像 Minecraft 的成就界面：左侧选择剧情分支，右侧纵向展开每个剧情节点，悬停即可查看详细描述。</p>
         <p>像 Minecraft 的成就界面一样，按分支浏览故事节点：主线、爱情、家庭与友谊，每一格都可悬停或点击查看详细剧情。</p>
     </header>
@@ -415,6 +480,18 @@
             <div class="summary-detail" id="summaryDetail"></div>
         </div>
     </section>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>剧情分支</h2>
+            <ul class="branch-list" id="branchList"></ul>
+        </aside>
+
+        <main class="content" id="branchesContainer">
+            <!-- JS 渲染分支成就 -->
+        </main>
+    </div>
+
 
     <div class="layout">
         <aside class="sidebar">

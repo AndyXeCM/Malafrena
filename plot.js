@@ -49,6 +49,67 @@ function renderSummary() {
 
     if (!summaryLine || !summaryDetail) return;
 
+    if (typeof chapterData === 'undefined') {
+        summaryLine.textContent = '剧情概览数据尚未加载。';
+        summaryDetail.innerHTML = '<h3>章节走向</h3><p>请确认 achievements.js 已正确加载。</p>';
+        return;
+    }
+
+    const chapterOrder = [
+        'PART_ONE',
+        'PART_TWO',
+        'PART_THREE',
+        'PART_FOUR',
+        'PART_FIVE',
+        'PART_SIX',
+        'PART_SEVEN'
+    ];
+
+    const summaryText = chapterOrder
+        .map(id => chapterData[id]?.title)
+        .filter(Boolean)
+        .join(' → ');
+
+    summaryLine.textContent = summaryText || 'Malafrena 的人生旅程与革命历程。';
+
+    summaryDetail.innerHTML = `
+        <h3>章节走向</h3>
+        <ul>
+            ${chapterOrder.map(id => {
+                const chapter = chapterData[id];
+                return chapter
+                    ? `<li>• ${chapter.title}：${chapter.description}</li>`
+                    : '';
+            }).join('')}
+        </ul>
+    `;
+}
+
+function renderBranchList() {
+    const list = document.getElementById('branchList');
+    if (!list) return;
+
+    const options = [
+        { id: 'all', title: '全部分支', description: '查看所有剧情节点' },
+        ...branchDefinitions
+    ];
+
+    list.innerHTML = options.map(option => `
+        <li>
+            <button class="branch-btn ${option.id === currentBranch ? 'active' : ''}" data-branch="${option.id}">
+                ${option.title}
+            </button>
+        </li>
+    `).join('');
+
+    list.querySelectorAll('.branch-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            currentBranch = button.dataset.branch;
+            list.querySelectorAll('.branch-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            renderBranches();
+        });
+    });
     const chapterOrder = [
         'PART_ONE',
         'PART_TWO',
@@ -169,6 +230,20 @@ function renderBranches() {
     if (!container) return;
 
     container.innerHTML = '';
+    const achievements = typeof plotAchievements === 'undefined'
+        ? []
+        : Object.values(plotAchievements);
+
+    if (!achievements.length) {
+        container.innerHTML = '<div class="branch-empty">暂无剧情数据，请确认 achievements.js 是否正常加载。</div>';
+        return;
+    }
+
+    const branchesToRender = currentBranch === 'all'
+        ? branchDefinitions
+        : branchDefinitions.filter(branch => branch.id === currentBranch);
+
+    branchesToRender.forEach(branch => {
     const achievements = Object.values(plotAchievements);
 
     branchDefinitions.forEach(branch => {
@@ -185,6 +260,10 @@ function renderBranches() {
             <div class="branch-header">
                 <h2>${branch.title}</h2>
                 <span>${branch.description} · ${branchAchievements.length} 项</span>
+            </div>
+            <div class="achievement-scroll">
+                <div class="achievement-grid" id="branch-${branch.id}"></div>
+            </div>
             </div>
             <div class="achievement-grid" id="branch-${branch.id}"></div>
         `;
@@ -204,6 +283,12 @@ function createAchievementCard(achievement) {
     card.className = 'achievement-card';
     card.dataset.achievementId = achievement.id;
 
+    const category = typeof categoryData === 'undefined'
+        ? null
+        : categoryData[achievement.category];
+    const chapter = typeof chapterData === 'undefined'
+        ? null
+        : chapterData[achievement.chapter];
     const category = categoryData[achievement.category];
     const chapter = chapterData[achievement.chapter];
 
@@ -284,6 +369,28 @@ function openModal(achievementId) {
     const title = document.getElementById('modalTitle');
     const content = document.getElementById('modalContent');
     if (!modal || !title || !content) return;
+
+    const chapter = typeof chapterData === 'undefined'
+        ? null
+        : chapterData[achievement.chapter];
+    const category = typeof categoryData === 'undefined'
+        ? null
+        : categoryData[achievement.category];
+
+    const characterList = (achievement.characters || [])
+        .map(charId => charactersData[charId])
+        .filter(Boolean)
+        .map(char => `${char.name_cn}（${char.name}）`);
+
+    title.textContent = achievement.title_cn;
+
+    content.innerHTML = `
+        <h4>${chapter?.title || '剧情节点'}</h4>
+        <p>${achievement.description_cn}</p>
+        <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
+        <p><strong>分类：</strong>${category?.name || achievement.category}</p>
+        <p><strong>相关人物：</strong>${characterList.length ? characterList.join('、') : '暂无'}</p>
+        <p><strong>原文：</strong>${achievement.evidence || '暂无原文'}</p>
 
     const chapter = chapterData[achievement.chapter];
     const category = categoryData[achievement.category];
