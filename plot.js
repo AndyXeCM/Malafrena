@@ -8,6 +8,16 @@ let unlockedAchievements = new Set();
 let currentFilter = 'all';
 let currentChapter = 'all';
 
+const chapterGridMap = {
+    PART_ONE: 'achievements-part1',
+    PART_TWO: 'achievements-part2',
+    PART_THREE: 'achievements-part3',
+    PART_FOUR: 'achievements-part4',
+    PART_FIVE: 'achievements-part5',
+    PART_SIX: 'achievements-part6',
+    PART_SEVEN: 'achievements-part7'
+};
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     initializePage();
@@ -34,7 +44,7 @@ function setupEventListeners() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
         btn.addEventListener('click', function() {
-            const filter = this.dataset.filter;
+            const filter = this.dataset.category || this.dataset.filter;
             setFilter(filter);
         });
     });
@@ -63,7 +73,10 @@ function setFilter(filter) {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+    const activeButton = document.querySelector(`[data-category="${filter}"], [data-filter="${filter}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
     
     renderAchievements();
 }
@@ -83,10 +96,16 @@ function setChapter(chapter) {
 
 // 渲染成就
 function renderAchievements() {
-    const container = document.getElementById('achievementsContainer');
-    if (!container) return;
-    
-    container.innerHTML = '';
+    if (typeof plotAchievements === 'undefined') {
+        return;
+    }
+
+    Object.values(chapterGridMap).forEach(gridId => {
+        const grid = document.getElementById(gridId);
+        if (grid) {
+            grid.innerHTML = '';
+        }
+    });
     
     // 获取筛选后的成就
     const filteredAchievements = getFilteredAchievements();
@@ -101,30 +120,10 @@ function renderAchievements() {
         chapters[chapter].push(achievement);
     });
     
-    // 渲染每个章节
-    Object.keys(chapters).sort().forEach(chapterId => {
-        const chapter = chapterData[chapterId];
-        const achievements = chapters[chapterId];
-        
-        // 创建章节标题
-        const chapterSection = document.createElement('div');
-        chapterSection.className = 'chapter-section';
-        chapterSection.innerHTML = `
-            <div class="chapter-header" style="border-left: 4px solid ${chapter.color}">
-                <h2 class="chapter-title">${chapter.title}</h2>
-                <p class="chapter-subtitle">${chapter.title_en}</p>
-                <p class="chapter-description">${chapter.description}</p>
-                <div class="chapter-progress">
-                    <span class="progress-text">${achievements.filter(a => unlockedAchievements.has(a.id)).length}/${achievements.length} 已解锁</span>
-                </div>
-            </div>
-            <div class="achievements-grid" id="chapter-${chapterId}"></div>
-        `;
-        
-        container.appendChild(chapterSection);
-        
-        // 渲染该章节的成就
-        const grid = document.getElementById(`chapter-${chapterId}`);
+    Object.keys(chapterGridMap).forEach(chapterId => {
+        const achievements = chapters[chapterId] || [];
+        const grid = document.getElementById(chapterGridMap[chapterId]);
+        if (!grid) return;
         achievements.forEach(achievement => {
             const card = createAchievementCard(achievement);
             grid.appendChild(card);
@@ -153,7 +152,7 @@ function getFilteredAchievements() {
 function createAchievementCard(achievement) {
     const card = document.createElement('div');
     const isUnlocked = unlockedAchievements.has(achievement.id);
-    const categoryColor = categoryData[achievement.category]?.color || '#4ECDC4';
+    const categoryColor = categoryData?.[achievement.category]?.color || '#4ECDC4';
     
     card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;
     card.style.borderLeftColor = categoryColor;
@@ -175,14 +174,14 @@ function createAchievementCard(achievement) {
         <div class="achievement-content">
             <p class="achievement-description">${achievement.description_cn}</p>
             <div class="achievement-meta">
-                <span class="chapter-tag" style="background-color: ${chapterData[achievement.chapter]?.color || '#666'}">${chapterData[achievement.chapter]?.title || achievement.chapter}</span>
-                <span class="category-tag" style="background-color: ${categoryColor}">${categoryData[achievement.category]?.name || achievement.category}</span>
+                <span class="chapter-tag" style="background-color: ${chapterData?.[achievement.chapter]?.color || '#666'}">${chapterData?.[achievement.chapter]?.title || achievement.chapter}</span>
+                <span class="category-tag" style="background-color: ${categoryColor}">${categoryData?.[achievement.category]?.name || achievement.category}</span>
             </div>
         </div>
         
         <div class="achievement-characters">
             ${achievement.characters ? achievement.characters.map(charId => {
-                const char = charactersData[charId];
+                const char = charactersData?.[charId];
                 return char ? `<span class="character-tag">${char.name_cn}</span>` : '';
             }).join('') : ''}
         </div>
@@ -215,15 +214,15 @@ function viewAchievement(achievementId) {
     
     title.textContent = achievement.title_cn;
     
-    const categoryColor = categoryData[achievement.category]?.color || '#4ECDC4';
+    const categoryColor = categoryData?.[achievement.category]?.color || '#4ECDC4';
     
     content.innerHTML = `
         <div class="modal-achievement-header">
             <h2>${achievement.title_cn}</h2>
             <p class="english-title">${achievement.title}</p>
             <div class="modal-meta">
-                <span class="chapter-tag" style="background-color: ${chapterData[achievement.chapter]?.color || '#666'}">${chapterData[achievement.chapter]?.title || achievement.chapter}</span>
-                <span class="category-tag" style="background-color: ${categoryColor}">${categoryData[achievement.category]?.name || achievement.category}</span>
+                <span class="chapter-tag" style="background-color: ${chapterData?.[achievement.chapter]?.color || '#666'}">${chapterData?.[achievement.chapter]?.title || achievement.chapter}</span>
+                <span class="category-tag" style="background-color: ${categoryColor}">${categoryData?.[achievement.category]?.name || achievement.category}</span>
             </div>
         </div>
         
@@ -238,7 +237,7 @@ function viewAchievement(achievementId) {
                     <h3>相关人物</h3>
                     <div class="character-list">
                         ${achievement.characters.map(charId => {
-                            const char = charactersData[charId];
+                            const char = charactersData?.[charId];
                             return char ? `<div class="character-item">
                                 <strong>${char.name_cn}</strong> (${char.name})
                                 <span class="role">${char.role_cn}</span>
@@ -332,6 +331,10 @@ function showUnlockAnimation(achievementId) {
 
 // 更新进度
 function updateProgress() {
+    if (typeof plotAchievements === 'undefined') {
+        return;
+    }
+
     const totalAchievements = Object.keys(plotAchievements).length;
     const unlockedCount = unlockedAchievements.size;
     const percentage = (unlockedCount / totalAchievements) * 100;
@@ -343,15 +346,20 @@ function updateProgress() {
     }
     
     // 更新统计文本
-    const progressText = document.querySelector('.progress-text');
-    if (progressText) {
-        progressText.textContent = `${unlockedCount}/${totalAchievements} 成就已解锁`;
+    const completedCount = document.getElementById('completed-count');
+    if (completedCount) {
+        completedCount.textContent = unlockedCount;
     }
     
-    // 更新百分比
-    const percentageText = document.querySelector('.percentage');
-    if (percentageText) {
-        percentageText.textContent = `${Math.round(percentage)}%`;
+    const chaptersUnlocked = new Set(
+        Object.values(plotAchievements)
+            .filter(achievement => unlockedAchievements.has(achievement.id))
+            .map(achievement => achievement.chapter)
+    ).size;
+
+    const chapterProgress = document.getElementById('chapter-progress');
+    if (chapterProgress) {
+        chapterProgress.textContent = chaptersUnlocked;
     }
 }
 
