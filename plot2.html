@@ -182,15 +182,16 @@
         }
 
         .achievement-scroll {
-            overflow: visible;
-            padding-bottom: 0.5rem;
+            overflow-x: auto;
+            overflow-y: visible;
+            padding-bottom: 0.75rem;
         }
 
         .achievement-grid {
             display: flex;
             gap: 1rem;
             align-items: stretch;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             overflow: visible;
         }
 
@@ -243,39 +244,46 @@
             color: #d5ddcc;
         }
 
-        .achievement-detail {
-            position: absolute;
-            left: -50%;
-            width: 200%;
-            bottom: calc(100% + 12px);
-            background: rgba(14, 18, 14, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+        .achievement-preview {
+            position: fixed;
+            max-width: min(460px, 92vw);
+            background: rgba(14, 18, 14, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
-            padding: 0.85rem 1rem;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            padding: 0.9rem 1.1rem;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
             opacity: 0;
             transform: translateY(8px);
             pointer-events: none;
-            transition: all 0.2s ease;
-            z-index: 50;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 120;
         }
 
-        .achievement-card:hover .achievement-detail {
+        .achievement-preview.is-visible {
             opacity: 1;
             transform: translateY(0);
-            pointer-events: auto;
         }
 
-        .achievement-detail h4 {
-            font-size: 0.95rem;
+        .achievement-preview h4 {
+            font-size: 1rem;
             color: #f7e7a9;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.45rem;
         }
 
-        .achievement-detail p {
-            font-size: 0.85rem;
+        .achievement-preview p {
+            font-size: 0.86rem;
             color: #d4dccd;
-            line-height: 1.5;
+            line-height: 1.55;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-preview p:last-child {
+            margin-bottom: 0;
+        }
+
+        .achievement-preview .preview-meta {
+            font-size: 0.75rem;
+            color: #aeb7a6;
         }
 
         .footer-links {
@@ -347,12 +355,8 @@
                 position: static;
             }
 
-            .achievement-detail {
-                left: 0;
-                width: 100%;
-                bottom: auto;
-                top: calc(100% + 10px);
-                transform: translateY(-8px);
+            .achievement-preview {
+                max-width: min(340px, 94vw);
             }
         }
     </style>
@@ -397,6 +401,8 @@
             <div class="modal-body" id="modalContent"></div>
         </div>
     </div>
+
+    <div class="achievement-preview" id="achievementPreview" aria-hidden="true"></div>
 
     <script src="data.js"></script>
     <script src="achievements.js"></script>

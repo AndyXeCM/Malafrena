@@ -196,14 +196,13 @@ function createAchievementCard(achievement) {
         <div class="achievement-tags">
             ${tags.map(tag => `<span class="achievement-tag">${tag}</span>`).join('')}
         </div>
-        <div class="achievement-detail">
-            <h4>${chapterData?.[achievement.chapter]?.title || '剧情细节'}</h4>
-            <p>${achievement.description_cn}</p>
-            <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
-        </div>
     `;
 
     card.addEventListener('click', () => openModal(achievement.id));
+    card.addEventListener('mouseenter', () => showPreview(achievement, card));
+    card.addEventListener('mouseleave', hidePreview);
+    card.addEventListener('focusin', () => showPreview(achievement, card));
+    card.addEventListener('focusout', hidePreview);
     return card;
 }
 
@@ -222,6 +221,9 @@ function setupInteractions() {
             closeModal();
         }
     });
+
+    window.addEventListener('scroll', hidePreview, { passive: true });
+    window.addEventListener('resize', hidePreview);
 }
 
 function openModal(achievementId) {
@@ -258,4 +260,65 @@ function closeModal() {
     if (modal) {
         modal.style.display = 'none';
     }
+}
+
+function showPreview(achievement, card) {
+    const preview = document.getElementById('achievementPreview');
+    if (!preview || !card) return;
+
+    const chapterTitle = chapterData?.[achievement.chapter]?.title || '剧情细节';
+    const categoryName = categoryData?.[achievement.category]?.name || achievement.category;
+    const descriptionCn = achievement.description_cn || '暂无剧情简介。';
+    const descriptionEn = achievement.description || '';
+    const evidenceCn = achievement.evidence_cn || '暂无原文证据。';
+    const evidenceEn = achievement.evidence || '';
+
+    preview.innerHTML = `
+        <h4>${chapterTitle}</h4>
+        <p>${descriptionCn}</p>
+        ${descriptionEn ? `<p>${descriptionEn}</p>` : ''}
+        <p>${evidenceCn}</p>
+        ${evidenceEn ? `<p>${evidenceEn}</p>` : ''}
+        <div class="preview-meta">分类：${categoryName}</div>
+    `;
+
+    preview.style.maxHeight = `min(360px, ${Math.floor(window.innerHeight * 0.6)}px)`;
+    preview.style.overflow = 'auto';
+    preview.style.display = 'block';
+    preview.classList.add('is-visible');
+    preview.setAttribute('aria-hidden', 'false');
+
+    requestAnimationFrame(() => positionPreview(preview, card));
+}
+
+function positionPreview(preview, card) {
+    if (!preview || !card) return;
+    const spacing = 12;
+    const cardRect = card.getBoundingClientRect();
+    const previewRect = preview.getBoundingClientRect();
+
+    const fitsAbove = cardRect.top >= previewRect.height + spacing;
+    const top = fitsAbove
+        ? cardRect.top - previewRect.height - spacing
+        : Math.min(
+            cardRect.bottom + spacing,
+            window.innerHeight - previewRect.height - spacing
+        );
+
+    const centeredLeft = cardRect.left + (cardRect.width - previewRect.width) / 2;
+    const left = Math.max(
+        spacing,
+        Math.min(centeredLeft, window.innerWidth - previewRect.width - spacing)
+    );
+
+    preview.style.top = `${Math.max(spacing, top)}px`;
+    preview.style.left = `${left}px`;
+}
+
+function hidePreview() {
+    const preview = document.getElementById('achievementPreview');
+    if (!preview) return;
+    preview.classList.remove('is-visible');
+    preview.setAttribute('aria-hidden', 'true');
+    preview.style.display = 'none';
 }
