@@ -2,6 +2,16 @@
 
 let currentBranch = 'all';
 
+const chapterGridMap = {
+    PART_ONE: 'achievements-part1',
+    PART_TWO: 'achievements-part2',
+    PART_THREE: 'achievements-part3',
+    PART_FOUR: 'achievements-part4',
+    PART_FIVE: 'achievements-part5',
+    PART_SIX: 'achievements-part6',
+    PART_SEVEN: 'achievements-part7'
+};
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     renderSummary();
