@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malafrena 交互式图表导航</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .navigation-container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 4rem;
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .card h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .card-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .feature i {
+            color: #667eea;
+            width: 16px;
+        }
+
+        .card-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .info-section h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .info-section p {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .card {
+                padding: 2rem;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation-container">
+        <header class="header">
+            <h1>Malafrena 交互式图表</h1>
+            <p>探索乌苏拉·K·勒古恩经典小说中的复杂人物关系与精彩剧情发展</p>
+        </header>
+
+        <div class="cards-container">
+            <!-- 人物关系图卡片 -->
+            <a href="index.html" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h2>人物关系图</h2>
+                <p>深入探索小说中30个主要人物之间的复杂关系网络，通过交互式可视化图表展现家庭、友谊、政治和爱情等多重关系。</p>
+                
+                <div class="card-features">
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <span>30个完整人物档案</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-link"></i>
+                        <span>多种关系类型可视化</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-search"></i>
+                        <span>智能搜索与筛选</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-book"></i>
+                        <span>原文证据展示</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <span>交互式点击查看</span>
+                    </div>
+                </div>
+                
+                <button class="card-btn">
+                    进入人物关系图 <i class="fas fa-arrow-right"></i>
+                </button>
+            </a>
+
+            <!-- 剧情走向图卡片 -->
+            <a href="plot.html" class="card">
+                <div class="card-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <h2>剧情走向图</h2>
+                <p>跟随伊塔勒·索德从青春理想到成熟智慧的成长历程，通过七个章节的故事线展现革命、爱情与人生的深刻主题。</p>
+                
+                <div class="card-features">
+                    <div class="feature">
+                        <i class="fas fa-list-ol"></i>
+                        <span>7个章节详细解析</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-tags"></i>
+                        <span>主题标签与分类</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-star"></i>
+                        <span>关键事件梳理</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>深度主题分析</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <span>可展开详细内容</span>
+                    </div>
+                </div>
+                
+                <button class="card-btn">
+                    进入剧情走向图 <i class="fas fa-arrow-right"></i>
+                </button>
+            </a>
+        </div>
+
+        <div class="info-section">
+            <h3>关于《Malafrena》</h3>
+            <p>《Malafrena》是乌苏拉·K·勒古恩于1979年发表的历史小说，以19世纪初奥匈帝国边境地区为背景，讲述了年轻贵族伊塔勒·索德为追求自由与正义而投身革命的故事。小说深刻探讨了理想主义与现实政治的复杂关系，展现了个人在历史洪流中的挣扎与成长。</p>
+            
+            <div class="stats-container">
+                <div class="stat">
+                    <span class="stat-number">30</span>
+                    <span class="stat-label">主要人物</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">7</span>
+                    <span class="stat-label">章节部分</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">人物关系</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

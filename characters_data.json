@@ -1,0 +1,388 @@
+{
+  "Itale Sorde": {
+    "id": "itale",
+    "name": "Itale Sorde",
+    "role": "protagonist",
+    "description": "小说主人公，年轻的理想主义者，为了自由和正义离开家乡",
+    "aliases": [
+      "Itale",
+      "Herr Sorde",
+      "Dom Itale"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART TWO",
+      "PART THREE",
+      "PART FOUR",
+      "PART FIVE",
+      "PART SIX",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "理想主义",
+      "热情",
+      "勇敢",
+      "固执"
+    ]
+  },
+  "Piera Valtorskar": {
+    "id": "piera",
+    "name": "Piera Valtorskar",
+    "role": "main",
+    "description": "Valtorskar伯爵的女儿，Itale的青梅竹马",
+    "aliases": [
+      "Piera",
+      "Contesina",
+      "Countess Piera"
+    ],
+    "family": "Valtorskar家族",
+    "appears_in": [
+      "PART ONE",
+      "PART TWO",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "纯真",
+      "敏感",
+      "内敛",
+      "忠诚"
+    ]
+  },
+  "Laura Sorde": {
+    "id": "laura",
+    "name": "Laura Sorde",
+    "role": "main",
+    "description": "Itale的妹妹，聪明而独立",
+    "aliases": [
+      "Laura",
+      "Miss Laura",
+      "Miss Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "聪明",
+      "独立",
+      "诚实",
+      "敏感"
+    ]
+  },
+  "Guide Sorde": {
+    "id": "guide",
+    "name": "Guide Sorde",
+    "role": "main",
+    "description": "Itale的父亲，庄园主，保守而固执",
+    "aliases": [
+      "Guide",
+      "Dom Guide",
+      "Mr Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "严厉",
+      "保守",
+      "固执",
+      "责任感强"
+    ]
+  },
+  "Eleonora Sorde": {
+    "id": "eleonora",
+    "name": "Eleonora Sorde",
+    "role": "main",
+    "description": "Itale的母亲，温柔而坚强",
+    "aliases": [
+      "Eleonora",
+      "Mrs Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "温柔",
+      "坚强",
+      "善解人意",
+      "慈爱"
+    ]
+  },
+  "Emanuel Sorde": {
+    "id": "emanuel",
+    "name": "Emanuel Sorde",
+    "role": "main",
+    "description": "Itale的叔叔，律师，比Guide更开明",
+    "aliases": [
+      "Emanuel",
+      "Mr Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART TWO",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "开明",
+      "理性",
+      "讽刺",
+      "智慧"
+    ]
+  },
+  "Perneta Sorde": {
+    "id": "perneta",
+    "name": "Perneta Sorde",
+    "role": "main",
+    "description": "Emanuel的妻子，Itale的姑姑",
+    "aliases": [
+      "Perneta",
+      "Mrs Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART TWO",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "实际",
+      "幽默",
+      "慈爱"
+    ]
+  },
+  "Count Orlant Valtorskar": {
+    "id": "orlant",
+    "name": "Count Orlant Valtorskar",
+    "role": "main",
+    "description": "Piera的父亲，Sorde家的邻居和朋友",
+    "aliases": [
+      "Count Orlant",
+      "Count Valtorskar",
+      "Orlant"
+    ],
+    "family": "Valtorskar家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "温和",
+      "善良",
+      "有点糊涂",
+      "好脾气"
+    ]
+  },
+  "Givan Frenin": {
+    "id": "givan",
+    "name": "Givan Frenin",
+    "role": "secondary",
+    "description": "Itale的大学朋友，Amiktiya社团成员",
+    "aliases": [
+      "Givan",
+      "Frenin"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "激进",
+      "热情",
+      "理想主义"
+    ]
+  },
+  "Tomas Brelavay": {
+    "id": "tomas",
+    "name": "Tomas Brelavay",
+    "role": "secondary",
+    "description": "Itale的大学朋友，Amiktiya社团成员",
+    "aliases": [
+      "Tomas",
+      "Brelavay"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "讽刺",
+      "聪明",
+      "怀疑主义"
+    ]
+  },
+  "Angele Dru": {
+    "id": "angele",
+    "name": "Angele Dru",
+    "role": "secondary",
+    "description": "Itale的舅舅，Eleonora的兄弟",
+    "aliases": [
+      "Angele",
+      "Uncle Angele"
+    ],
+    "family": "Dru家族",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "随和",
+      "幽默",
+      "实际"
+    ]
+  },
+  "Stefan Oragon": {
+    "id": "stefan",
+    "name": "Stefan Oragon",
+    "role": "secondary",
+    "description": "爱国者领袖，政治活动家",
+    "aliases": [
+      "Stefan",
+      "Oragon"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "勇敢",
+      "有魅力",
+      "领导力"
+    ]
+  },
+  "King Matiyas Sovenskar": {
+    "id": "matiyas",
+    "name": "King Matiyas Sovenskar",
+    "role": "secondary",
+    "description": "Orsinia的合法国王，被流放",
+    "aliases": [
+      "King Matiyas",
+      "Matiyas",
+      "Duke Matiyas"
+    ],
+    "family": "Sovenskar王室",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "高贵",
+      "有尊严",
+      "受人民爱戴"
+    ]
+  },
+  "Bron": {
+    "id": "bron",
+    "name": "Bron",
+    "role": "minor",
+    "description": "Sorde庄园的酿酒师",
+    "aliases": [
+      "Bron",
+      "the master vintner"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "严厉",
+      "有经验",
+      "忠诚"
+    ]
+  },
+  "Kass": {
+    "id": "kass",
+    "name": "Kass",
+    "role": "minor",
+    "description": "Sorde家的仆人",
+    "aliases": [
+      "Kass"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "勤劳",
+      "可靠"
+    ]
+  },
+  "Eva": {
+    "id": "eva",
+    "name": "Eva",
+    "role": "minor",
+    "description": "Valtorskar家的厨娘",
+    "aliases": [
+      "Eva",
+      "the cook"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "能干",
+      "直率"
+    ]
+  },
+  "Marta": {
+    "id": "marta",
+    "name": "Marta",
+    "role": "minor",
+    "description": "农民Astolfe的妻子",
+    "aliases": [
+      "Marta"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "开朗",
+      "健谈"
+    ]
+  },
+  "David Angele": {
+    "id": "david",
+    "name": "David Angele",
+    "role": "minor",
+    "description": "年轻的农民",
+    "aliases": [
+      "David",
+      "David Angele"
+    ],
+    "family": "",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "年轻",
+      "谦逊"
+    ]
+  },
+  "Itale Sorde (grandfather)": {
+    "id": "grandfather",
+    "name": "Itale Sorde (grandfather)",
+    "role": "minor",
+    "description": "Itale的祖父，曾游历欧洲",
+    "aliases": [
+      "old Itale",
+      "Dom Itale",
+      "grandfather"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "博学",
+      "开明",
+      "有经验"
+    ]
+  }
+}

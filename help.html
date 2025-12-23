@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malafrena 交互式图表 - 使用帮助</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #444;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .section p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step::before {
+            content: counter(step-counter);
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .step h4 {
+            display: inline;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .step p {
+            margin-top: 0.5rem;
+            padding-left: 2.5rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box h4 {
+            color: #2d3436;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            color: #2d3436;
+            margin: 0;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .character-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .character-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .character-name {
+            font-weight: 600;
+            color: #333;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .character-name-cn {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .footer p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-question-circle"></i> 使用帮助</h1>
+            <p>欢迎使用Malafrena交互式图表系统！本指南将帮助您更好地理解和使用这两个可视化工具。</p>
+        </header>
+
+        <section class="section">
+            <h2>📚 项目概述</h2>
+            <p>本项目基于乌苏拉·K·勒古恩的经典小说《Malafrena》创建了两个交互式可视化网页：</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-project-diagram"></i>
+                    <h4>人物关系图</h4>
+                    <p>探索30个主要人物之间的复杂关系网络</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-route"></i>
+                    <h4>剧情走向图</h4>
+                    <p>跟随伊塔勒的成长历程，理解故事发展脉络</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 人物关系图使用指南</h2>
+            
+            <h3>基本操作</h3>
+            <div class="step-list">
+                <div class="step">
+                    <h4>浏览关系网络</h4>
+                    <p>使用鼠标拖拽可以移动整个关系图，滚轮可以缩放视图。点击空白处可以取消当前选择。</p>
+                </div>
+                <div class="step">
+                    <h4>查看人物信息</h4>
+                    <p>点击任意人物节点，会高亮显示与该人物相关的所有关系，并在中央弹窗显示详细信息。</p>
+                </div>
+                <div class="step">
+                    <h4>搜索人物</h4>
+                    <p>在左侧搜索框中输入人物名称（支持中英文），系统会自动筛选并高亮匹配的人物。</p>
+                </div>
+                <div class="step">
+                    <h4>查看关系详情</h4>
+                    <p>在人物详情卡片中，点击任意关系项可以查看体现该关系的原文段落及中文翻译。</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> 使用技巧</h4>
+                <p>人物节点的大小代表其重要性：主人公（最大）、主要角色（中等）、配角（较小）。连线颜色代表不同的关系类型。</p>
+            </div>
+
+            <h3>关系类型说明</h3>
+            <ul style="margin-left: 2rem; color: #666;">
+                <li><strong>红色连线</strong> - 家庭关系（父子、兄弟、夫妻等）</li>
+                <li><strong>青色连线</strong> - 朋友关系</li>
+                <li><strong>粉色连线</strong> - 恋爱关系</li>
+                <li><strong>蓝色连线</strong> - 政治关系</li>
+                <li><strong>绿色连线</strong> - 主仆关系</li>
+                <li><strong>黄色连线</strong> - 职业关系</li>
+                <li><strong>紫色连线</strong> - 敌对关系</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>📖 剧情走向图使用指南</h2>
+            
+            <h3>章节结构</h3>
+            <p>小说分为七个主要部分，每个部分对应伊塔勒人生旅程的一个重要阶段：</p>
+            
+            <div class="step-list">
+                <div class="step">
+                    <h4>PART ONE - 庄园与童年</h4>
+                    <p>伊塔勒在家乡庄园的成长经历，与皮耶拉的初恋萌芽</p>
+                </div>
+                <div class="step">
+                    <h4>PART TWO - 首都求学</h4>
+                    <p>接触激进思想，结识革命同志，政治觉醒的开始</p>
+                </div>
+                <div class="step">
+                    <h4>PART THREE - 革命萌芽</h4>
+                    <p>与皮耶拉重逢，革命计划的制定，理想与现实的碰撞</p>
+                </div>
+                <div class="step">
+                    <h4>PART FOUR - 起义爆发</h4>
+                    <p>革命全面爆发，街头战斗，暴力的残酷现实</p>
+                </div>
+                <div class="step">
+                    <h4>PART FIVE - 革命失败</h4>
+                    <p>革命被镇压，同志牺牲与背叛，逃亡生涯的开始</p>
+                </div>
+                <div class="step">
+                    <h4>PART SIX - 流亡与反思</h4>
+                    <p>内心的深刻转变，对革命意义的重新思考</p>
+                </div>
+                <div class="step">
+                    <h4>PART SEVEN - 回归与和解</h4>
+                    <p>多年后回到家乡，与家人和解，获得人生智慧</p>
+                </div>
+            </div>
+
+            <h3>交互功能</h3>
+            <p>每个章节卡片都可以点击展开，查看更详细的内容：</p>
+            <ul style="margin-left: 2rem; color: #666;">
+                <li><strong>章节概述</strong> - 该部分的主要情节简介</li>
+                <li><strong>关键事件</strong> - 列出章节中的重要事件节点</li>
+                <li><strong>主题分析</strong> - 对该章节主题的深度解读</li>
+                <li><strong>主要人物</strong> - 标注该章节出现的重要角色</li>
+                <li><strong>主题标签</strong> - 便于理解章节的核心主题</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>👥 主要人物介绍</h2>
+            <p>以下是小说中的核心人物，每个人物都有独特的性格特点和命运轨迹：</p>
+            
+            <div class="character-grid">
+                <div class="character-item">
+                    <span class="character-name">Itale Sorde</span>
+                    <span class="character-name-cn">伊塔勒·索尔德</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Laura Sorde</span>
+                    <span class="character-name-cn">劳拉·索尔德</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Guide Sorde</span>
+                    <span class="character-name-cn">吉德·索尔德</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Piera Valtorskar</span>
+                    <span class="character-name-cn">皮耶拉·瓦尔托斯卡</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Givan Frenin</span>
+                    <span class="character-name-cn">吉万·弗雷宁</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Stefan Fabbre</span>
+                    <span class="character-name-cn">斯特凡·法布雷</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Emanuel Sorde</span>
+                    <span class="character-name-cn">艾曼纽尔·索尔德</span>
+                </div>
+                <div class="character-item">
+                    <span class="character-name">Matiyas Sovenskar</span>
+                    <span class="character-name-cn">马蒂亚斯·索文斯卡</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>💡 使用建议</h2>
+            
+            <div class="tip-box">
+                <h4><i class="fas fa-star"></i> 最佳实践</h4>
+                <p>建议先使用剧情走向图了解整体故事脉络，然后再通过人物关系图深入探索人物之间的复杂关系。两个工具相互补充，可以提供更全面的理解。</p>
+            </div>
+
+            <h3>学习路径建议</h3>
+            <ol style="margin-left: 2rem; color: #666;">
+                <li><strong>初次接触</strong> - 先阅读剧情走向图的章节概述，了解基本故事</li>
+                <li><strong>深入理解</strong> - 使用人物关系图探索主要人物的关系网络</li>
+                <li><strong>细节研究</strong> - 查看原文证据，理解关系的具体体现</li>
+                <li><strong>主题思考</strong> - 结合剧情分析，思考小说的深层主题</li>
+                <li><strong>交叉验证</strong> - 在两个人物图表之间切换，获得多维度理解</li>
+            </ol>
+        </section>
+
+        <section class="section">
+            <h2>🔧 技术说明</h2>
+            <p>本项目使用现代Web技术构建，确保在各种设备上都能提供良好的用户体验：</p>
+            <ul style="margin-left: 2rem; color: #666;">
+                <li><strong>响应式设计</strong> - 适配桌面、平板和手机等不同屏幕尺寸</li>
+                <li><strong>现代浏览器支持</strong> - 推荐Chrome、Firefox、Safari、Edge等</li>
+                <li><strong>交互式可视化</strong> - 使用D3.js实现动态力导向图</li>
+                <li><strong>流畅动画</strong> - CSS和JavaScript实现平滑过渡效果</li>
+                <li><strong>数据完整性</strong> - 基于原著小说提取的准确信息</li>
+            </ul>
+        </section>
+
+        <footer class="footer">
+            <p>希望这个交互式图表系统能帮助您更好地理解和欣赏《Malafrena》这部经典作品。</p>
+            <div class="nav-links">
+                <a href="navigation.html" class="nav-link">
+                    <i class="fas fa-home"></i> 返回导航
+                </a>
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-project-diagram"></i> 人物关系图
+                </a>
+                <a href="plot.html" class="nav-link">
+                    <i class="fas fa-route"></i> 剧情走向图
+                </a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

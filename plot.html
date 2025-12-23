@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malafrena 剧情成就系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .progress-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-header h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-container {
+            background: rgba(255,255,255,0.2);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #4ECDC4, #44A08D);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 14px;
+        }
+
+        .chapter-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .chapter-section {
+            margin-bottom: 4rem;
+        }
+
+        .chapter-header {
+            background: rgba(255,255,255,0.95);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .chapter-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .achievement-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .achievement-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .achievement-info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .achievement-info .chapter-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .achievement-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .characters-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .character-tag {
+            background: rgba(118, 75, 162, 0.1);
+            color: #764ba2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .expand-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .expand-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .expand-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .expand-btn.expanded i {
+            transform: rotate(180deg);
+        }
+
+        .achievement-details {
+            display: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .achievement-details.expanded {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .evidence-box {
+            background: rgba(102, 126, 234, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .evidence-box h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .evidence-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn i {
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .category-filter {
+            background: rgba(255,255,255,0.95);
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievement-card {
+                padding: 1.5rem;
+            }
+            
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+            
+            .nav-btn {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-trophy"></i> Malafrena 剧情成就系统</h1>
+        <p>跟随伊塔勒·索尔德的成长之旅，解锁每一个重要的故事节点</p>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-header">
+            <h2>故事进度</h2>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="progress-stats">
+            <span>已完成: <span id="completed-count">0</span> / 84 个成就</span>
+            <span>章节进度: <span id="chapter-progress">0</span> / 7 章</span>
+        </div>
+    </div>
+
+    <div class="category-filter">
+        <button class="filter-btn active" data-category="all">全部</button>
+        <button class="filter-btn" data-category="childhood">童年时光</button>
+        <button class="filter-btn" data-category="family">家庭关系</button>
+        <button class="filter-btn" data-category="romance">爱情故事</button>
+        <button class="filter-btn" data-category="politics">政治斗争</button>
+        <button class="filter-btn" data-category="action">革命行动</button>
+        <button class="filter-btn" data-category="mystery">神秘事件</button>
+    </div>
+
+    <div class="chapter-container">
+        <!-- 第一部分 -->
+        <section class="chapter-section" data-chapter="PART_ONE">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第一部分：庄园与童年</h2>
+                <p class="chapter-subtitle">在宁静的Malafrena庄园，年轻的伊塔勒开始质疑传统与权威，与青梅竹马皮耶拉萌生情愫</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part1">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+
+        <!-- 第二部分 -->
+        <section class="chapter-section" data-chapter="PART_TWO">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第二部分：首都求学</h2>
+                <p class="chapter-subtitle">伊塔勒来到繁华的首都，在叔叔艾曼纽尔的引导下接触到了激进的思想和政治团体</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part2">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+
+        <!-- 第三部分 -->
+        <section class="chapter-section" data-chapter="PART_THREE">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第三部分：革命萌芽</h2>
+                <p class="chapter-subtitle">政治氛围日益紧张，伊塔勒和他的朋友们开始策划实际的革命行动</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part3">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+
+        <!-- 第四部分 -->
+        <section class="chapter-section" data-chapter="PART_FOUR">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第四部分：起义爆发</h2>
+                <p class="chapter-subtitle">革命终于爆发，伊塔勒和他的同志们走上街头，但现实的残酷远超他们的想象</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part4">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+
+        <!-- 第五部分 -->
+        <section class="chapter-section" data-chapter="PART_FIVE">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第五部分：革命失败</h2>
+                <p class="chapter-subtitle">革命被镇压，法布雷被捕，伊塔勒和他的幸存同志们被迫逃亡</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part5">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+
+        <!-- 第六部分 -->
+        <section class="chapter-section" data-chapter="PART_SIX">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第六部分：流亡与反思</h2>
+                <p class="chapter-subtitle">伊塔勒在流亡中重新审视自己的理想和选择，经历了内心的巨大转变</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part6">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+
+        <!-- 第七部分 -->
+        <section class="chapter-section" data-chapter="PART_SEVEN">
+            <div class="chapter-header">
+                <h2 class="chapter-title">第七部分：回归与和解</h2>
+                <p class="chapter-subtitle">多年后，伊塔勒回到家乡，与家人和解，重新认识了生活的意义</p>
+            </div>
+            <div class="achievements-grid" id="achievements-part7">
+                <!-- 成就卡片将通过JavaScript生成 -->
+            </div>
+        </section>
+    </div>
+
+    <!-- 导航按钮 -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="scrollToTop()" title="回到顶部">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button class="nav-btn" onclick="expandAllAchievements()" title="展开所有成就">
+            <i class="fas fa-expand-arrows-alt"></i>
+        </button>
+        <a href="index.html" class="nav-btn" title="查看人物关系图" style="text-decoration: none; color: inherit;">
+            <i class="fas fa-project-diagram"></i>
+        </a>
+        <a href="help.html" class="nav-btn" title="使用帮助" style="text-decoration: none; color: inherit;">
+            <i class="fas fa-question"></i>
+        </a>
+    </div>
+
+    <!-- 模态框 -->
+    <div class="modal" id="achievementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">成就详情</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- 详细内容将通过JavaScript填充 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="achievements.js"></script>
+    <script src="plot.js"></script>
+</body>
+</html>

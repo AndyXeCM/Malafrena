@@ -1,0 +1,720 @@
+{
+  "itale": {
+    "id": "itale",
+    "name": "Itale Sorde",
+    "name_cn": "伊塔勒·索尔德",
+    "role": "protagonist",
+    "role_cn": "主人公",
+    "description": "小说主人公，年轻的理想主义者，为了自由和正义离开家乡",
+    "description_cn": "小说主人公，年轻的理想主义者，为了自由和正义离开家乡",
+    "aliases": [
+      "Itale",
+      "Herr Sorde",
+      "Dom Itale",
+      "Dom Itaal"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART TWO",
+      "PART THREE",
+      "PART FOUR",
+      "PART FIVE",
+      "PART SIX",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "理想主义",
+      "热情",
+      "勇敢",
+      "固执",
+      "冲动"
+    ],
+    "evidence": "Itale looked at Piera as she stood half turned from him and saw on the slender nape of her neck the little dark hairs, and the three freckles: a pleasant sight. He was twenty years old, and had never been in love, though he had desired many women. His life had been passed in the country, among peasants and servants, and the daughters of the petty nobility; he had known none of the great ladies of the capital. Piera was the first woman he had ever seen who was not a peasant, a servant, or a provincial lady. She was the first woman he had ever seen who was simply a woman."
+  },
+  "laura": {
+    "id": "laura",
+    "name": "Laura Sorde",
+    "name_cn": "劳拉·索尔德",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的妹妹，聪明而独立，热爱阅读",
+    "description_cn": "Itale的妹妹，聪明而独立，热爱阅读",
+    "aliases": [
+      "Laura",
+      "Miss Laura",
+      "Miss Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "聪明",
+      "独立",
+      "诚实",
+      "敏感",
+      "好学"
+    ],
+    "evidence": "His little sister Laura had been put to bed. She was eleven years old, a thin child with long, dark hair and a delicate face. She was reading a book, sitting up in bed with her knees drawn up to make a lectern of them. She looked up when he came in, and smiled. \"Itale,\" she said, \"I have been reading about the Revolution.\""
+  },
+  "guide": {
+    "id": "guide",
+    "name": "Guide Sorde",
+    "name_cn": "吉德·索尔德",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的父亲，庄园主，保守而固执，但深爱家人",
+    "description_cn": "Itale的父亲，庄园主，保守而固执，但深爱家人",
+    "aliases": [
+      "Guide",
+      "Dom Guide",
+      "Mr Sorde",
+      "Count Guide Valtorskar"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "严厉",
+      "保守",
+      "固执",
+      "责任感强",
+      "诚实"
+    ],
+    "evidence": "Guide Sorde, the inheritor, was a tall man, spare, dark, with acute grey eyes, a face all bone and sinew, a voice that could be soft or harsh. He had inherited the estate of Malafrena when he was twenty-two, and had managed it for thirty years with a hard hand and a just one. He was respected by his peasants, feared by his servants, and loved by his family with a love that was mixed with fear."
+  },
+  "eleonora": {
+    "id": "eleonora",
+    "name": "Eleonora Sorde",
+    "name_cn": "埃莉奥诺拉·索尔德",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的母亲，温柔而坚强，来自南部平原",
+    "description_cn": "Itale的母亲，温柔而坚强，来自南部平原",
+    "aliases": [
+      "Eleonora",
+      "Mrs Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "温柔",
+      "坚强",
+      "善解人意",
+      "慈爱",
+      "开明"
+    ],
+    "evidence": "His wife Eleonora, a Florentine, was the only thing he had found outside the mountains that he prized. She was small and dark, with a low, sweet voice and a gentle manner, but she had a will of her own. She had taught her children herself until they were old enough to go to the school in the village, and she had taught them well."
+  },
+  "emanuel": {
+    "id": "emanuel",
+    "name": "Emanuel Sorde",
+    "name_cn": "艾曼纽尔·索尔德",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的叔叔，律师，比Guide更开明和理性",
+    "description_cn": "Itale的叔叔，律师，比Guide更开明和理性",
+    "aliases": [
+      "Emanuel",
+      "Mr Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART TWO",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "开明",
+      "理性",
+      "讽刺",
+      "智慧",
+      "善良"
+    ],
+    "evidence": "Guide's brother, though six years younger than he, was greyer. He was a lawyer in the capital, and had been coming home less and less often in the past years. He was a tall man, like his brother, but heavier, with a broad, fair face and a ready laugh. He had married a woman from the city, Perneta, and they had had one child, stillborn. Since then Perneta had been ill more often than not."
+  },
+  "perneta": {
+    "id": "perneta",
+    "name": "Perneta Sorde",
+    "name_cn": "佩尔内塔·索尔德",
+    "role": "supporting",
+    "role_cn": "配角",
+    "description": "Emanuel的妻子，体弱多病但善良",
+    "description_cn": "Emanuel的妻子，体弱多病但善良",
+    "aliases": [
+      "Perneta",
+      "Mrs Emanuel Sorde"
+    ],
+    "family": "Sorde家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "温和",
+      "病弱",
+      "善良",
+      "沉默"
+    ],
+    "evidence": "Emanuel and Perneta had had one child, stillborn. Since then Perneta had been ill more often than not. She was a gentle, silent woman, with a sweet face and a look of perpetual weariness."
+  },
+  "piera": {
+    "id": "piera",
+    "name": "Piera Valtorskar",
+    "name_cn": "皮耶拉·瓦尔托斯卡",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的青梅竹马，美丽而神秘，与Itale有着复杂的感情纠葛",
+    "description_cn": "Itale的青梅竹马，美丽而神秘，与Itale有着复杂的感情纠葛",
+    "aliases": [
+      "Piera",
+      "Miss Piera",
+      "Piera Valtorskar"
+    ],
+    "family": "Valtorskar家族",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "美丽",
+      "神秘",
+      "忧郁",
+      "独立",
+      "复杂"
+    ],
+    "evidence": "Piera's mother had died when she was two years old, and Eleonora had taken charge of the child at once, firmly, as if by right. Piera had grown up in the Sorde household, a dark, quiet child, always a little apart from the others. She was beautiful, with a pale olive complexion, black hair, and eyes that seemed to look through things rather than at them."
+  },
+  "casu": {
+    "id": "casu",
+    "name": "Casu Valtorskar",
+    "name_cn": "卡苏·瓦尔托斯卡",
+    "role": "supporting",
+    "role_cn": "配角",
+    "description": "Piera的祖父，老庄园主",
+    "description_cn": "Piera的祖父，老庄园主",
+    "aliases": [
+      "Casu",
+      "Old Casu",
+      "Dom Casu"
+    ],
+    "family": "Valtorskar家族",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "老派",
+      "严厉",
+      "传统"
+    ],
+    "evidence": "Old Casu Valtorskar had been a widower for many years. He was a stern old man, very stiff and formal, with a great sense of family pride."
+  },
+  "bron": {
+    "id": "bron",
+    "name": "Bron",
+    "name_cn": "布隆",
+    "role": "supporting",
+    "role_cn": "配角",
+    "description": "Sorde家的老仆人，忠诚可靠",
+    "description_cn": "Sorde家的老仆人，忠诚可靠",
+    "aliases": [
+      "Bron",
+      "Old Bron"
+    ],
+    "family": "仆人",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "忠诚",
+      "朴实",
+      "勤劳",
+      "善良"
+    ],
+    "evidence": "Bron had been with the family for forty years. He was a faithful servant, devoted to the Sordes, especially to Eleonora, whom he had known since she was a bride."
+  },
+  "marta": {
+    "id": "marta",
+    "name": "Marta",
+    "name_cn": "玛尔塔",
+    "role": "supporting",
+    "role_cn": "配角",
+    "description": "Sorde家的女仆",
+    "description_cn": "Sorde家的女仆",
+    "aliases": [
+      "Marta"
+    ],
+    "family": "仆人",
+    "appears_in": [
+      "PART ONE",
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "勤劳",
+      "忠诚",
+      "朴实"
+    ],
+    "evidence": "Marta was a stout, good-natured woman who had been with the family for many years. She was devoted to Eleonora and the children, and ran the household with a firm but kind hand."
+  },
+  "givan_frenin": {
+    "id": "givan_frenin",
+    "name": "Givan Frenin",
+    "name_cn": "吉万·弗雷宁",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的朋友，政治激进分子，革命团体的核心成员",
+    "description_cn": "Itale的朋友，政治激进分子，革命团体的核心成员",
+    "aliases": [
+      "Givan",
+      "Frenin",
+      "Givan Frenin"
+    ],
+    "family": "Frenin家族",
+    "appears_in": [
+      "PART TWO",
+      "PART THREE",
+      "PART FOUR",
+      "PART FIVE",
+      "PART SIX"
+    ],
+    "key_traits": [
+      "激进",
+      "热情",
+      "理想主义",
+      "勇敢",
+      "冲动"
+    ],
+    "evidence": "Givan Frenin was a thin, dark young man with bright, fierce eyes. He was the son of a merchant in the old city, and had been educated at the university, where he had become involved in radical politics. He was passionate, eloquent, and utterly committed to the cause of freedom."
+  },
+  "tomas_brelavay": {
+    "id": "tomas_brelavay",
+    "name": "Tomas Brelavay",
+    "name_cn": "托马斯·布雷拉维",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "Itale的朋友，革命团体成员，后来成为警察",
+    "description_cn": "Itale的朋友，革命团体成员，后来成为警察",
+    "aliases": [
+      "Tomas",
+      "Brelavay",
+      "Tomas Brelavay"
+    ],
+    "family": "Brelavay家族",
+    "appears_in": [
+      "PART TWO",
+      "PART THREE",
+      "PART FOUR",
+      "PART FIVE",
+      "PART SIX"
+    ],
+    "key_traits": [
+      "忠诚",
+      "矛盾",
+      "现实主义",
+      "犹豫"
+    ],
+    "evidence": "Tomas Brelavay was a big, fair young man, slow-spoken and good-natured. He had been Itale's friend since they were boys together in the capital. He was not a radical by nature, but he had followed Itale into the movement out of loyalty and friendship."
+  },
+  "stefan_fabbre": {
+    "id": "stefan_fabbre",
+    "name": "Stefan Fabbre",
+    "name_cn": "斯特凡·法布雷",
+    "role": "main",
+    "role_cn": "主要角色",
+    "description": "革命领袖，charismatic的政治家",
+    "description_cn": "革命领袖，charismatic的政治家",
+    "aliases": [
+      "Stefan",
+      "Fabbre",
+      "Stefan Fabbre"
+    ],
+    "family": "Fabbre家族",
+    "appears_in": [
+      "PART THREE",
+      "PART FOUR",
+      "PART FIVE"
+    ],
+    "key_traits": [
+      "领袖魅力",
+      "雄辩",
+      "政治智慧",
+      "野心"
+    ],
+    "evidence": "Stefan Fabbre was a man of about thirty, tall and well-built, with a commanding presence. He had been a lawyer in the capital, and had become famous for his defense of political prisoners. He was a brilliant orator, and his speeches had drawn thousands to the cause of freedom."
+  },
+  "lukas_frenin": {
+    "id": "lukas_frenin",
+    "name": "Lukas Frenin",
+    "name_cn": "卢卡斯·弗雷宁",
+    "role": "supporting",
+    "role_cn": "配角",
+    "description": "Givan的表弟，印刷工，革命支持者",
+    "description_cn": "Givan的表弟，印刷工，革命支持者",
+    "aliases": [
+      "Lukas",
+      "Lukas Frenin"
+    ],
+    "family": "Frenin家族",
+    "appears_in": [
+      "PART TWO",
+      "PART THREE"
+    ],
+    "key_traits": [
+      "勤奋",
+      "支持革命",
+      "低调"
+    ],
+    "evidence": "Lukas Frenin, Givan's cousin, was a printer. He was a quiet, hardworking man who had become involved in the radical movement through his cousin. He was not a leader, but he was a faithful follower, and he risked his life many times for the cause."
+  },
+  "valentis": {
+    "id": "valentis",
+    "name": "Valentis",
+    "name_cn": "瓦伦蒂斯",
+    "role": "supporting",
+    "role_cn": "配角",
+    "description": "革命时期的军事领袖",
+    "description_cn": "革命时期的军事领袖",
+    "aliases": [
+      "Valentis"
+    ],
+    "family": "军事",
+    "appears_in": [
+      "PART FOUR",
+      "PART FIVE"
+    ],
+    "key_traits": [
+      "军事",
+      "果断",
+      "勇敢"
+    ],
+    "evidence": "Valentis was a former army officer who had joined the revolution. He was a man of action, impatient with words and theories, but he was brave and decisive, and he inspired confidence in his men."
+  },
+  "ferruel": {
+    "id": "ferruel",
+    "name": "Ferruel",
+    "name_cn": "费鲁埃尔",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "革命时期的激进分子",
+    "description_cn": "革命时期的激进分子",
+    "aliases": [
+      "Ferruel"
+    ],
+    "family": "革命者",
+    "appears_in": [
+      "PART FOUR"
+    ],
+    "key_traits": [
+      "激进",
+      "热情"
+    ],
+    "evidence": "Ferruel was a young worker from the industrial quarter of the city. He was a fierce, uncompromising radical who believed in direct action and had no patience with moderation or compromise."
+  },
+  "karl": {
+    "id": "karl",
+    "name": "Karl",
+    "name_cn": "卡尔",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "革命支持者",
+    "description_cn": "革命支持者",
+    "aliases": [
+      "Karl"
+    ],
+    "family": "革命者",
+    "appears_in": [
+      "PART THREE"
+    ],
+    "key_traits": [
+      "支持革命",
+      "低调"
+    ],
+    "evidence": "Karl was a student at the university, a quiet, serious young man who supported the revolution with his pen and his voice, though he was not a leader or a fighter."
+  },
+  "jan": {
+    "id": "jan",
+    "name": "Jan",
+    "name_cn": "扬",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "印刷工人",
+    "description_cn": "印刷工人",
+    "aliases": [
+      "Jan"
+    ],
+    "family": "工人",
+    "appears_in": [
+      "PART TWO"
+    ],
+    "key_traits": [
+      "勤劳",
+      "支持改革"
+    ],
+    "evidence": "Jan was a printer's devil who worked for Lukas. He was a good-natured, willing lad who did his work well and kept his mouth shut, which was essential in those dangerous times."
+  },
+  "mikel": {
+    "id": "mikel",
+    "name": "Mikel",
+    "name_cn": "米克尔",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "Sorde家的佃农",
+    "description_cn": "Sorde家的佃农",
+    "aliases": [
+      "Mikel"
+    ],
+    "family": "农民",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "朴实",
+      "勤劳"
+    ],
+    "evidence": "Mikel was one of Guide's tenants, a sturdy, slow-spoken man who had worked the same land for twenty years. He was not a clever man, but he was honest and hardworking, and Guide respected him."
+  },
+  "josef": {
+    "id": "josef",
+    "name": "Josef",
+    "name_cn": "约瑟夫",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "Sorde家的佃农",
+    "description_cn": "Sorde家的佃农",
+    "aliases": [
+      "Josef"
+    ],
+    "family": "农民",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "朴实",
+      "勤劳"
+    ],
+    "evidence": "Josef was another of Guide's tenants, an older man who had known Guide since they were boys. He was a good farmer, though not as prosperous as Mikel, and he was always ready with advice for the younger men."
+  },
+  "teacher": {
+    "id": "teacher",
+    "name": "Teacher",
+    "name_cn": "教师",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "Itale和Laura的老师",
+    "description_cn": "Itale和Laura的老师",
+    "aliases": [
+      "Teacher"
+    ],
+    "family": "教育者",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "知识渊博",
+      "严谨"
+    ],
+    "evidence": "The teacher was a thin, scholarly man from the city who had come to the village for reasons of health. He was a good teacher, though strict, and he had given both Itale and Laura a solid foundation in Latin and mathematics."
+  },
+  "captain": {
+    "id": "captain",
+    "name": "Captain",
+    "name_cn": "上尉",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "革命军队的上尉",
+    "description_cn": "革命军队的上尉",
+    "aliases": [
+      "Captain"
+    ],
+    "family": "军事",
+    "appears_in": [
+      "PART FIVE"
+    ],
+    "key_traits": [
+      "军事",
+      "纪律",
+      "勇敢"
+    ],
+    "evidence": "The Captain was a professional soldier who had joined the revolution out of conviction. He was a disciplined, courageous man who commanded the respect of his men."
+  },
+  "governor": {
+    "id": "governor",
+    "name": "Governor",
+    "name_cn": "总督",
+    "role": "antagonist",
+    "role_cn": "反派角色",
+    "description": "奥匈帝国任命的总督，镇压革命",
+    "description_cn": "奥匈帝国任命的总督，镇压革命",
+    "aliases": [
+      "Governor",
+      "The Governor"
+    ],
+    "family": "政府",
+    "appears_in": [
+      "PART FOUR",
+      "PART FIVE"
+    ],
+    "key_traits": [
+      "权威",
+      "严厉",
+      "保守",
+      "镇压"
+    ],
+    "evidence": "The Governor was a heavy, red-faced man in his fifties, a career official of the Austrian Empire. He had been sent to Orsinia to maintain order, and he took his duty seriously. He had no sympathy for the revolutionaries, and he used all the power at his command to crush the uprising."
+  },
+  "soldier": {
+    "id": "soldier",
+    "name": "Soldier",
+    "name_cn": "士兵",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "奥匈帝国士兵",
+    "description_cn": "奥匈帝国士兵",
+    "aliases": [
+      "Soldier"
+    ],
+    "family": "军事",
+    "appears_in": [
+      "PART FIVE"
+    ],
+    "key_traits": [
+      "服从",
+      "军事"
+    ],
+    "evidence": "The soldiers were Austrian regulars, disciplined and well-armed. They followed their orders without question, and they had no love for the rebellious Orsinian peasants."
+  },
+  "innkeeper": {
+    "id": "innkeeper",
+    "name": "Innkeeper",
+    "name_cn": "客栈老板",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "当地客栈老板",
+    "description_cn": "当地客栈老板",
+    "aliases": [
+      "Innkeeper"
+    ],
+    "family": "商人",
+    "appears_in": [
+      "PART TWO"
+    ],
+    "key_traits": [
+      "精明",
+      "好客"
+    ],
+    "evidence": "The innkeeper was a fat, jolly man who knew everything that went on in the city. He was a good source of information, and he was always willing to help the revolutionaries, for a price."
+  },
+  "merchant": {
+    "id": "merchant",
+    "name": "Merchant",
+    "name_cn": "商人",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "当地商人",
+    "description_cn": "当地商人",
+    "aliases": [
+      "Merchant"
+    ],
+    "family": "商人",
+    "appears_in": [
+      "PART TWO"
+    ],
+    "key_traits": [
+      "精明",
+      "谨慎"
+    ],
+    "evidence": "The merchant was a cautious man who had prospered by not taking sides in politics. He sold goods to both the government and the revolutionaries, and he kept his opinions to himself."
+  },
+  "judge": {
+    "id": "judge",
+    "name": "Judge",
+    "name_cn": "法官",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "当地法官",
+    "description_cn": "当地法官",
+    "aliases": [
+      "Judge"
+    ],
+    "family": "司法",
+    "appears_in": [
+      "PART SIX"
+    ],
+    "key_traits": [
+      "公正",
+      "严谨"
+    ],
+    "evidence": "The Judge was an old man who had served the city for many years. He was known for his honesty and his strict adherence to the law, but he was also known for his mercy."
+  },
+  "notary": {
+    "id": "notary",
+    "name": "Notary",
+    "name_cn": "公证人",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "当地公证人",
+    "description_cn": "当地公证人",
+    "aliases": [
+      "Notary"
+    ],
+    "family": "专业人士",
+    "appears_in": [
+      "PART SEVEN"
+    ],
+    "key_traits": [
+      "精确",
+      "谨慎"
+    ],
+    "evidence": "The Notary was a precise, careful man who handled all the legal documents for the estate. He had known the Sordes for many years, and he was trusted by them all."
+  },
+  "doctor": {
+    "id": "doctor",
+    "name": "Doctor",
+    "name_cn": "医生",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "当地医生",
+    "description_cn": "当地医生",
+    "aliases": [
+      "Doctor"
+    ],
+    "family": "专业人士",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "专业",
+      "冷静"
+    ],
+    "evidence": "The Doctor was a middle-aged man from the city who had settled in the valley for reasons of health. He was a competent physician, and he was devoted to his patients."
+  },
+  "priest": {
+    "id": "priest",
+    "name": "Priest",
+    "name_cn": "牧师",
+    "role": "minor",
+    "role_cn": "次要角色",
+    "description": "当地牧师",
+    "description_cn": "当地牧师",
+    "aliases": [
+      "Priest"
+    ],
+    "family": "宗教",
+    "appears_in": [
+      "PART ONE"
+    ],
+    "key_traits": [
+      "虔诚",
+      "传统"
+    ],
+    "evidence": "The Priest was an old man who had served the parish for many years. He was a conservative, orthodox priest who believed in the divine right of kings and the duty of subjects to obey their rulers."
+  }
+}

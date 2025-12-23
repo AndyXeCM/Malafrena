@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malafrena 人物关系图</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+
+        .sidebar {
+            width: 320px;
+            background: white;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .search-container {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .character-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .character-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .group-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .character-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .character-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .character-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .character-name {
+            font-weight: 500;
+            color: #333;
+            margin-right: 0.5rem;
+        }
+
+        .character-name-cn {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .main-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #graph-container {
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+
+        .controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .control-btn i {
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 50;
+            max-width: 200px;
+        }
+
+        .legend h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 3px;
+            margin-right: 0.5rem;
+            border-radius: 2px;
+        }
+
+        .legend-text {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .details-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 200;
+        }
+
+        .character-details {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+            z-index: 300;
+        }
+
+        .character-info-card {
+            padding: 2rem;
+        }
+
+        .character-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .character-header h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .character-role {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .character-meta {
+            margin-bottom: 1.5rem;
+        }
+
+        .character-meta p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .character-description {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .character-traits {
+            margin-bottom: 1.5rem;
+        }
+
+        .character-traits h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .traits-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .trait-tag {
+            background: #e1e5e9;
+            color: #666;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .character-relationships h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .relationships-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .relationship-item {
+            padding: 1rem;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .relationship-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .relationship-type {
+            display: inline-block;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .relationship-person {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .relationship-evidence {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .view-evidence-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s ease;
+        }
+
+        .view-evidence-btn:hover {
+            background: #5a67d8;
+        }
+
+        .close-details-btn {
+            width: 100%;
+            background: #e1e5e9;
+            color: #666;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-details-btn:hover {
+            background: #d1d5db;
+        }
+
+        .evidence-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            z-index: 400;
+        }
+
+        .evidence-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .evidence-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .evidence-text h3:first-child {
+            margin-top: 0;
+        }
+
+        .evidence-text p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close-modal-btn:hover {
+            color: #666;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 280px;
+            }
+            
+            .character-details {
+                max-width: 90vw;
+                margin: 1rem;
+            }
+            
+            .evidence-content {
+                max-width: 90vw;
+                margin: 1rem;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Malafrena 人物关系图</h1>
+        <p>探索乌苏拉·K·勒古恩经典小说中的复杂人物关系网络</p>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="search-container">
+                <input type="text" id="character-search" placeholder="搜索人物名称...">
+            </div>
+            <div class="character-list" id="character-list">
+                <!-- 人物列表将通过JavaScript动态生成 -->
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="graph-container">
+                <!-- D3.js关系图将在这里渲染 -->
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" id="zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="control-btn" id="zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <button class="control-btn" id="reset-view" title="重置视图">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </button>
+                <button class="control-btn" id="fullscreen" title="全屏">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+
+            <div class="legend" id="legend">
+                <!-- 图例将通过JavaScript动态生成 -->
+            </div>
+        </main>
+    </div>
+
+    <div class="details-overlay" id="details-overlay"></div>
+    <div class="character-details" id="character-details">
+        <!-- 人物详情将通过JavaScript动态生成 -->
+    </div>
+
+    <div class="evidence-modal" id="evidence-modal">
+        <div class="evidence-content" id="evidence-content">
+            <button class="close-modal-btn" onclick="closeEvidenceModal()">&times;</button>
+            <!-- 原文证据将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

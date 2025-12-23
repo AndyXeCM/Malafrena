@@ -1,0 +1,142 @@
+[
+  {
+    "source": "guide",
+    "target": "itale",
+    "relationship": "父子",
+    "type": "family",
+    "strength": 5
+  },
+  {
+    "source": "eleonora",
+    "target": "itale",
+    "relationship": "母子",
+    "type": "family",
+    "strength": 5
+  },
+  {
+    "source": "guide",
+    "target": "laura",
+    "relationship": "父女",
+    "type": "family",
+    "strength": 5
+  },
+  {
+    "source": "eleonora",
+    "target": "laura",
+    "relationship": "母女",
+    "type": "family",
+    "strength": 5
+  },
+  {
+    "source": "itale",
+    "target": "laura",
+    "relationship": "兄妹",
+    "type": "family",
+    "strength": 4
+  },
+  {
+    "source": "emanuel",
+    "target": "guide",
+    "relationship": "兄弟",
+    "type": "family",
+    "strength": 4
+  },
+  {
+    "source": "emanuel",
+    "target": "itale",
+    "relationship": "叔侄",
+    "type": "family",
+    "strength": 3
+  },
+  {
+    "source": "perneta",
+    "target": "emanuel",
+    "relationship": "夫妻",
+    "type": "family",
+    "strength": 4
+  },
+  {
+    "source": "angele",
+    "target": "eleonora",
+    "relationship": "兄妹",
+    "type": "family",
+    "strength": 3
+  },
+  {
+    "source": "angele",
+    "target": "itale",
+    "relationship": "舅甥",
+    "type": "family",
+    "strength": 3
+  },
+  {
+    "source": "orlant",
+    "target": "piera",
+    "relationship": "父女",
+    "type": "family",
+    "strength": 5
+  },
+  {
+    "source": "eleonora",
+    "target": "piera",
+    "relationship": "义母女",
+    "type": "family",
+    "strength": 4
+  },
+  {
+    "source": "itale",
+    "target": "piera",
+    "relationship": "恋人",
+    "type": "romantic",
+    "strength": 4
+  },
+  {
+    "source": "itale",
+    "target": "givan",
+    "relationship": "朋友",
+    "type": "friendship",
+    "strength": 3
+  },
+  {
+    "source": "itale",
+    "target": "tomas",
+    "relationship": "朋友",
+    "type": "friendship",
+    "strength": 3
+  },
+  {
+    "source": "itale",
+    "target": "stefan",
+    "relationship": "政治同盟",
+    "type": "political",
+    "strength": 3
+  },
+  {
+    "source": "itale",
+    "target": "matiyas",
+    "relationship": "君臣/支持者",
+    "type": "political",
+    "strength": 4
+  },
+  {
+    "source": "guide",
+    "target": "bron",
+    "relationship": "主仆",
+    "type": "servant",
+    "strength": 2
+  },
+  {
+    "source": "itale",
+    "target": "kass",
+    "relationship": "主仆",
+    "type": "servant",
+    "strength": 2
+  },
+  {
+    "source": "orlant",
+    "target": "eva",
+    "relationship": "主仆",
+    "type": "servant",
+    "strength": 2
+  }
+]
