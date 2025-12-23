@@ -254,6 +254,7 @@
             font-size: 1.05rem;
             color: #f5f1dc;
             font-weight: 600;
+            margin-bottom: 0.35rem;
         }
 
         .achievement-subtitle {
@@ -282,6 +283,9 @@
             left: calc(100% + 12px);
             top: 0;
             width: min(320px, 70vw);
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
             background: rgba(14, 18, 14, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 12px;
@@ -295,6 +299,8 @@
         }
 
         .achievement-card:hover .achievement-detail {
+        .achievement-card:hover .achievement-detail,
+        .achievement-card.is-open .achievement-detail {
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
@@ -398,6 +404,7 @@
     <header class="header">
         <h1>Malafrena 剧情成就墙</h1>
         <p>更像 Minecraft 的成就界面：左侧选择剧情分支，右侧纵向展开每个剧情节点，悬停即可查看详细描述。</p>
+        <p>像 Minecraft 的成就界面一样，按分支浏览故事节点：主线、爱情、家庭与友谊，每一格都可悬停或点击查看详细剧情。</p>
     </header>
 
     <section class="summary-section">
@@ -419,6 +426,15 @@
             <!-- JS 渲染分支成就 -->
         </main>
     </div>
+
+    <div class="footer-actions">
+        <a href="index.html"><i class="fas fa-project-diagram"></i> 人物关系图</a>
+        <a href="help.html"><i class="fas fa-question"></i> 使用帮助</a>
+    </div>
+
+    <main class="branches" id="branchesContainer">
+        <!-- JS 渲染分支成就 -->
+    </main>
 
     <div class="footer-actions">
         <a href="index.html"><i class="fas fa-project-diagram"></i> 人物关系图</a>
