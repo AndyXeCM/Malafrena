@@ -268,13 +268,17 @@ function showPreview(achievement, card) {
 
     const chapterTitle = chapterData?.[achievement.chapter]?.title || '剧情细节';
     const categoryName = categoryData?.[achievement.category]?.name || achievement.category;
-    const description = achievement.description_cn || achievement.description || '暂无剧情简介。';
-    const evidence = achievement.evidence_cn || achievement.evidence || '暂无原文证据。';
+    const descriptionCn = achievement.description_cn || '暂无剧情简介。';
+    const descriptionEn = achievement.description || '';
+    const evidenceCn = achievement.evidence_cn || '暂无原文证据。';
+    const evidenceEn = achievement.evidence || '';
 
     preview.innerHTML = `
         <h4>${chapterTitle}</h4>
-        <p>${description}</p>
-        <p>${evidence}</p>
+        <p>${descriptionCn}</p>
+        ${descriptionEn ? `<p>${descriptionEn}</p>` : ''}
+        <p>${evidenceCn}</p>
+        ${evidenceEn ? `<p>${evidenceEn}</p>` : ''}
         <div class="preview-meta">分类：${categoryName}</div>
     `;
 
