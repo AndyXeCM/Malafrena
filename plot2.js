@@ -44,6 +44,7 @@ const chapterOrder = [
 ];
 
 let currentBranch = 'all';
+let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof plotAchievements === 'undefined' || typeof chapterData === 'undefined') {
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderSummary();
     renderBranchList();
+    renderCategoryFilter();
     renderBranches();
     setupInteractions();
 });
@@ -116,6 +118,27 @@ function renderBranchList() {
     });
 }
 
+function renderCategoryFilter() {
+    const select = document.getElementById('categorySelect');
+    if (!select) return;
+
+    const categories = typeof categoryData === 'undefined' ? {} : categoryData;
+    const options = [
+        { id: 'all', name: '全部分类' },
+        ...Object.values(categories)
+    ];
+
+    select.innerHTML = options.map(option => `
+        <option value="${option.id}">${option.name}</option>
+    `).join('');
+
+    select.value = currentCategory;
+    select.addEventListener('change', () => {
+        currentCategory = select.value;
+        renderBranches();
+    });
+}
+
 function renderBranches() {
     const container = document.getElementById('branchesContainer');
     if (!container) return;
@@ -127,9 +150,11 @@ function renderBranches() {
         : branchDefinitions.filter(branch => branch.id === currentBranch);
 
     branchesToRender.forEach(branch => {
-        const branchAchievements = achievements.filter(achievement =>
-            branch.categories.includes(achievement.category)
-        );
+        const branchAchievements = achievements.filter(achievement => {
+            if (!branch.categories.includes(achievement.category)) return false;
+            if (currentCategory === 'all') return true;
+            return achievement.category === currentCategory;
+        });
 
         if (!branchAchievements.length) return;
 

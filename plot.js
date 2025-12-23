@@ -1,290 +1,126 @@
-// Malafrena 剧情成就墙 JavaScript
+// Malafrena 剧情总览页面脚本（基于 achievements.js 与 data.js）
 
-let currentBranch = 'all';
-
-const chapterGridMap = {
-    PART_ONE: 'achievements-part1',
-    PART_TWO: 'achievements-part2',
-    PART_THREE: 'achievements-part3',
-    PART_FOUR: 'achievements-part4',
-    PART_FIVE: 'achievements-part5',
-    PART_SIX: 'achievements-part6',
-    PART_SEVEN: 'achievements-part7'
-};
-
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
-    renderSummary();
-    renderBranchList();
-    renderBranches();
-    setupInteractions();
-});
-
-const branchDefinitions = [
-    {
-        id: 'mainline',
-        title: '主线剧情',
-        description: '革命主线与关键转折',
-        categories: ['politics', 'action', 'arrival', 'departure']
-    },
-    {
-        id: 'romance',
-        title: '爱情支线',
-        description: 'Itale 与 Piera 的情感发展',
-        categories: ['romance']
-    },
-    {
-        id: 'family',
-        title: '家庭支线',
-        description: '家族责任与亲情冲突',
-        categories: ['family']
-    },
-    {
-        id: 'friendship',
-        title: '友谊支线',
-        description: '伙伴与同盟的羁绊',
-        categories: ['friend', 'social']
-    },
-    {
-        id: 'growth',
-        title: '成长支线',
-        description: '成长、教育与心灵变化',
-        categories: ['childhood', 'education', 'character', 'mentor', 'mystery']
-    }
+const chapterOrder = [
+    'PART_ONE',
+    'PART_TWO',
+    'PART_THREE',
+    'PART_FOUR',
+    'PART_FIVE',
+    'PART_SIX',
+    'PART_SEVEN'
 ];
 
-function renderSummary() {
-    const summaryLine = document.getElementById('summaryLine');
-    const summaryDetail = document.getElementById('summaryDetail');
+let currentFilter = 'all';
 
-    if (!summaryLine || !summaryDetail) return;
-
-    if (typeof chapterData === 'undefined') {
-        summaryLine.textContent = '剧情概览数据尚未加载。';
-        summaryDetail.innerHTML = '<h3>章节走向</h3><p>请确认 achievements.js 已正确加载。</p>';
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof plotAchievements === 'undefined' || typeof chapterData === 'undefined') {
+        showLoadError();
         return;
     }
 
-    const chapterOrder = [
-        'PART_ONE',
-        'PART_TWO',
-        'PART_THREE',
-        'PART_FOUR',
-        'PART_FIVE',
-        'PART_SIX',
-        'PART_SEVEN'
-    ];
+    renderSummary();
+    renderFilters();
+    renderChapters();
+    setupModalHandlers();
+});
 
-    const summaryText = chapterOrder
+function showLoadError() {
+    const summaryLine = document.getElementById('summaryLine');
+    const summaryDetail = document.getElementById('summaryDetail');
+    if (summaryLine) {
+        summaryLine.textContent = '剧情数据未加载，请检查 data.js 与 achievements.js。';
+    }
+    if (summaryDetail) {
+        summaryDetail.textContent = '建议使用本地静态服务器打开页面，避免 file:// 访问限制。';
+    }
+}
+
+function renderSummary() {
+    const summaryLine = document.getElementById('summaryLine');
+    const summaryDetail = document.getElementById('summaryDetail');
+    if (!summaryLine || !summaryDetail) return;
+
+    const titleLine = chapterOrder
         .map(id => chapterData[id]?.title)
         .filter(Boolean)
         .join(' → ');
 
-    summaryLine.textContent = summaryText || 'Malafrena 的人生旅程与革命历程。';
+    summaryLine.textContent = titleLine || 'Malafrena 的人生旅程与革命历程。';
 
     summaryDetail.innerHTML = `
-        <h3>章节走向</h3>
         <ul>
             ${chapterOrder.map(id => {
                 const chapter = chapterData[id];
-                return chapter
-                    ? `<li>• ${chapter.title}：${chapter.description}</li>`
-                    : '';
+                if (!chapter) return '';
+                return `<li>• ${chapter.title}：${chapter.description}</li>`;
             }).join('')}
         </ul>
     `;
 }
 
-function renderBranchList() {
-    const list = document.getElementById('branchList');
-    if (!list) return;
+function renderFilters() {
+    const filters = document.getElementById('filters');
+    if (!filters) return;
 
-    const options = [
-        { id: 'all', title: '全部分支', description: '查看所有剧情节点' },
-        ...branchDefinitions
+    const categories = typeof categoryData === 'undefined' ? {} : categoryData;
+    const items = [
+        { id: 'all', name: '全部' },
+        ...Object.values(categories)
     ];
 
-    list.innerHTML = options.map(option => `
-        <li>
-            <button class="branch-btn ${option.id === currentBranch ? 'active' : ''}" data-branch="${option.id}">
-                ${option.title}
-            </button>
-        </li>
+    filters.innerHTML = items.map(item => `
+        <button class="filter-btn ${item.id === currentFilter ? 'active' : ''}" data-filter="${item.id}">
+            ${item.name}
+        </button>
     `).join('');
 
-    list.querySelectorAll('.branch-btn').forEach(button => {
+    filters.querySelectorAll('.filter-btn').forEach(button => {
         button.addEventListener('click', () => {
-            currentBranch = button.dataset.branch;
-            list.querySelectorAll('.branch-btn').forEach(btn => btn.classList.remove('active'));
+            currentFilter = button.dataset.filter;
+            filters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-            renderBranches();
-        });
-    });
-    const chapterOrder = [
-        'PART_ONE',
-        'PART_TWO',
-        'PART_THREE',
-        'PART_FOUR',
-        'PART_FIVE',
-        'PART_SIX',
-        'PART_SEVEN'
-    ];
-
-    const summaryText = chapterOrder
-        .map(id => chapterData[id]?.title)
-        .filter(Boolean)
-        .join(' → ');
-
-    summaryLine.textContent = summaryText || 'Malafrena 的人生旅程与革命历程。';
-
-    summaryDetail.innerHTML = `
-        <h3>章节走向</h3>
-        <ul>
-            ${chapterOrder.map(id => {
-                const chapter = chapterData[id];
-                return chapter
-                    ? `<li>• ${chapter.title}：${chapter.description}</li>`
-                    : '';
-            }).join('')}
-        </ul>
-    `;
-}
-
-function renderBranchList() {
-    const list = document.getElementById('branchList');
-    if (!list) return;
-
-    const options = [
-        { id: 'all', title: '全部分支', description: '查看所有剧情节点' },
-        ...branchDefinitions
-    ];
-
-    list.innerHTML = options.map(option => `
-        <li>
-            <button class="branch-btn ${option.id === currentBranch ? 'active' : ''}" data-branch="${option.id}">
-                ${option.title}
-            </button>
-        </li>
-    `).join('');
-
-    list.querySelectorAll('.branch-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            currentBranch = button.dataset.branch;
-            list.querySelectorAll('.branch-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            renderBranches();
+            renderChapters();
         });
     });
 }
 
-function renderBranches() {
-    const container = document.getElementById('branchesContainer');
+function renderChapters() {
+    const container = document.getElementById('chaptersContainer');
     if (!container) return;
 
     container.innerHTML = '';
     const achievements = Object.values(plotAchievements);
 
-    const branchesToRender = currentBranch === 'all'
-        ? branchDefinitions
-        : branchDefinitions.filter(branch => branch.id === currentBranch);
+    chapterOrder.forEach(chapterId => {
+        const chapter = chapterData[chapterId];
+        if (!chapter) return;
 
-    branchesToRender.forEach(branch => {
-        const branchAchievements = achievements.filter(achievement =>
-            branch.categories.includes(achievement.category)
-        );
-
-        if (!branchAchievements.length) return;
-
-        const section = document.createElement('section');
-        section.className = 'branch-section';
-
-
-function renderSummary() {
-    const summaryLine = document.getElementById('summaryLine');
-    const summaryDetail = document.getElementById('summaryDetail');
-
-    if (!summaryLine || !summaryDetail) return;
-
-    const chapterOrder = [
-        'PART_ONE',
-        'PART_TWO',
-        'PART_THREE',
-        'PART_FOUR',
-        'PART_FIVE',
-        'PART_SIX',
-        'PART_SEVEN'
-    ];
-
-    const summaryText = chapterOrder
-        .map(id => chapterData[id]?.title)
-        .filter(Boolean)
-        .join(' → ');
-
-    summaryLine.textContent = summaryText || 'Malafrena 的人生旅程与革命历程。';
-
-    summaryDetail.innerHTML = `
-        <h3>章节走向</h3>
-        <ul>
-            ${chapterOrder.map(id => {
-                const chapter = chapterData[id];
-                return chapter
-                    ? `<li>• ${chapter.title}：${chapter.description}</li>`
-                    : '';
-            }).join('')}
-        </ul>
-    `;
-}
-
-function renderBranches() {
-    const container = document.getElementById('branchesContainer');
-    if (!container) return;
-
-    container.innerHTML = '';
-    const achievements = typeof plotAchievements === 'undefined'
-        ? []
-        : Object.values(plotAchievements);
-
-    if (!achievements.length) {
-        container.innerHTML = '<div class="branch-empty">暂无剧情数据，请确认 achievements.js 是否正常加载。</div>';
-        return;
-    }
-
-    const branchesToRender = currentBranch === 'all'
-        ? branchDefinitions
-        : branchDefinitions.filter(branch => branch.id === currentBranch);
-
-    branchesToRender.forEach(branch => {
-    const achievements = Object.values(plotAchievements);
-
-    branchDefinitions.forEach(branch => {
-        const branchAchievements = achievements.filter(achievement =>
-            branch.categories.includes(achievement.category)
-        );
-
-        if (!branchAchievements.length) return;
+        const chapterAchievements = achievements.filter(achievement => {
+            if (achievement.chapter !== chapterId) return false;
+            if (currentFilter === 'all') return true;
+            return achievement.category === currentFilter;
+        });
 
         const section = document.createElement('section');
-        section.className = 'branch-section';
-
+        section.className = 'chapter-section';
         section.innerHTML = `
-            <div class="branch-header">
-                <h2>${branch.title}</h2>
-                <span>${branch.description} · ${branchAchievements.length} 项</span>
+            <div class="chapter-header">
+                <h2 class="chapter-title">${chapter.title}</h2>
+                <p class="chapter-subtitle">${chapter.description}</p>
             </div>
-            <div class="achievement-scroll">
-                <div class="achievement-grid" id="branch-${branch.id}"></div>
-            </div>
-            </div>
-            <div class="achievement-grid" id="branch-${branch.id}"></div>
+            <div class="achievement-grid"></div>
         `;
 
-        container.appendChild(section);
-
         const grid = section.querySelector('.achievement-grid');
-        branchAchievements.forEach(achievement => {
-            const card = createAchievementCard(achievement);
-            grid.appendChild(card);
-        });
+        if (!chapterAchievements.length) {
+            grid.innerHTML = '<p style="color:#b6c0b0;">该章节暂无匹配的剧情节点。</p>';
+        } else {
+            chapterAchievements.forEach(achievement => {
+                grid.appendChild(createAchievementCard(achievement));
+            });
+        }
+
+        container.appendChild(section);
     });
 }
 
@@ -293,76 +129,33 @@ function createAchievementCard(achievement) {
     card.className = 'achievement-card';
     card.dataset.achievementId = achievement.id;
 
-    const category = typeof categoryData === 'undefined'
-        ? null
-        : categoryData[achievement.category];
-    const chapter = typeof chapterData === 'undefined'
-        ? null
-        : chapterData[achievement.chapter];
-    const category = categoryData[achievement.category];
-    const chapter = chapterData[achievement.chapter];
-
     const tags = [
-        chapter?.title,
-        category?.name,
+        chapterData?.[achievement.chapter]?.title,
+        categoryData?.[achievement.category]?.name,
         ...(achievement.tags || [])
     ].filter(Boolean);
 
     card.innerHTML = `
-        <div class="achievement-icon">
-            <i class="fas fa-gem"></i>
-        </div>
-        <div class="achievement-body">
-            <div class="achievement-title">${achievement.title_cn}</div>
-            <div class="achievement-subtitle">${achievement.title}</div>
-            <div class="achievement-tags">
-                ${tags.map(tag => `<span class="achievement-tag">${tag}</span>`).join('')}
-            </div>
         <div class="achievement-title">${achievement.title_cn}</div>
         <div class="achievement-subtitle">${achievement.title}</div>
         <div class="achievement-tags">
-            ${tags.map(tag => `<span class="achievement-tag">${tag}</span>`).join('')}
-        </div>
-        <div class="achievement-detail">
-            <h4>${chapter?.title || '剧情细节'}</h4>
-            <p>${achievement.description_cn}</p>
-            <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
+            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
         </div>
     `;
 
-    if (category?.color) {
-        card.style.borderColor = `${category.color}55`;
-    }
-
+    card.addEventListener('click', () => openModal(achievement.id));
     return card;
 }
 
-function setupInteractions() {
-    const summaryCard = document.getElementById('summaryCard');
-    if (summaryCard) {
-        summaryCard.addEventListener('click', () => {
-            summaryCard.classList.toggle('is-open');
-        });
-    }
+function setupModalHandlers() {
+    const modal = document.getElementById('achievementModal');
+    if (!modal) return;
 
-    document.addEventListener('click', event => {
-        const card = event.target.closest('.achievement-card');
-        if (!card) return;
-        card.classList.toggle('is-open');
-        const achievementId = card.dataset.achievementId;
-        if (achievementId) {
-            openModal(achievementId);
+    modal.addEventListener('click', event => {
+        if (event.target === modal) {
+            closeModal();
         }
     });
-
-    const modal = document.getElementById('achievementModal');
-    if (modal) {
-        modal.addEventListener('click', event => {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
 
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
@@ -372,7 +165,7 @@ function setupInteractions() {
 }
 
 function openModal(achievementId) {
-    const achievement = plotAchievements[achievementId];
+    const achievement = plotAchievements?.[achievementId];
     if (!achievement) return;
 
     const modal = document.getElementById('achievementModal');
@@ -380,57 +173,21 @@ function openModal(achievementId) {
     const content = document.getElementById('modalContent');
     if (!modal || !title || !content) return;
 
-    const chapter = typeof chapterData === 'undefined'
-        ? null
-        : chapterData[achievement.chapter];
-    const category = typeof categoryData === 'undefined'
-        ? null
-        : categoryData[achievement.category];
-
+    const chapter = chapterData?.[achievement.chapter];
+    const category = categoryData?.[achievement.category];
     const characterList = (achievement.characters || [])
-        .map(charId => charactersData[charId])
+        .map(id => charactersData?.[id])
         .filter(Boolean)
         .map(char => `${char.name_cn}（${char.name}）`);
 
     title.textContent = achievement.title_cn;
-
     content.innerHTML = `
-        <h4>${chapter?.title || '剧情节点'}</h4>
+        <h4>${chapter?.title || '剧情章节'}</h4>
         <p>${achievement.description_cn}</p>
         <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
         <p><strong>分类：</strong>${category?.name || achievement.category}</p>
         <p><strong>相关人物：</strong>${characterList.length ? characterList.join('、') : '暂无'}</p>
         <p><strong>原文：</strong>${achievement.evidence || '暂无原文'}</p>
-
-    const chapter = chapterData[achievement.chapter];
-    const category = categoryData[achievement.category];
-
-    const characterList = (achievement.characters || [])
-        .map(charId => charactersData[charId])
-        .filter(Boolean)
-        .map(char => `${char.name_cn}（${char.name}）`);
-
-    title.textContent = achievement.title_cn;
-
-    content.innerHTML = `
-        <h4>${chapter?.title || '剧情节点'}</h4>
-        <p>${achievement.description_cn}</p>
-        <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
-        <p><strong>分类：</strong>${category?.name || achievement.category}</p>
-        <p><strong>相关人物：</strong>${characterList.length ? characterList.join('、') : '暂无'}</p>
-        <p><strong>原文：</strong>${achievement.evidence || '暂无原文'}</p>
-    `;
-
-
-    content.innerHTML = `
-        <div class="modal-body">
-            <h4>${chapter?.title || '剧情节点'}</h4>
-            <p>${achievement.description_cn}</p>
-            <p>${achievement.evidence_cn || '暂无原文证据。'}</p>
-            <p><strong>分类：</strong>${category?.name || achievement.category}</p>
-            <p><strong>相关人物：</strong>${characterList.length ? characterList.join('、') : '暂无'}</p>
-            <p><strong>原文：</strong>${achievement.evidence || '暂无原文'}</p>
-        </div>
     `;
 
     modal.style.display = 'flex';
