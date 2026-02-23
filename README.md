@@ -7,7 +7,7 @@
 本项目包含两个核心交互式网页：
 
 1. **人物关系图** (`index.html`) - 展示小说中30个主要人物之间的复杂关系网络
-2. **剧情走向图** (`plot.html`) - 展现小说七个章节的详细剧情发展
+2. **剧情走向图** (`plot2.html`) - 展现小说七个章节的详细剧情发展
 
 ## 📊 功能特性
 
@@ -96,9 +96,9 @@
 
 ## 🌐 访问链接
 
-- **导航页面**: https://pho3lmql5bogo.ok.kimi.link/navigation.html
-- **人物关系图**: https://pho3lmql5bogo.ok.kimi.link/index.html
-- **剧情走向图**: https://pho3lmql5bogo.ok.kimi.link/plot.html
+- **导航页面**: https://andyxecm.github.io/Malafrena/navigation.html
+- **人物关系图**: https://andyxecm.github.io/Malafrena/index.html
+- **剧情走向图**: https://andyxecm.github.io/Malafrena/plot2.html
 
 ---
 
